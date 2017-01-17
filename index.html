@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>api-tree</title>
+</head>
+<style>
+    #properties {position: relative;}
+    .property {
+        position: absolute;
+        padding: 5px;
+        min-width: 200px;
+        z-index: 10;
+        font-size: 12px;
+        line-height: 24px;
+        box-shadow: 1px 1px 10px rgba(0,0,0,.3);
+        background: white;
+        border-radius: 4px;
+        display: none;
+    }
+    #svg-box { z-index: 1}
+</style>
+<body>
+<div style="height: 800px;width: 100%;">
+    <div id="properties">
+
+    </div>
+    <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" id="svg-box">
+        <g transform="translate(0.5, 0.5)">
+            <g id="tree-root" transform="translate( 159 400 )">
+                <g id="lines">
+
+                </g>
+
+                <g id="node-box">
+
+                </g>
+
+            </g>
+
+        </g>
+    </svg>
+
+</div>
+</body>
+</html>
+<script src="js/jquery.js"></script>
+<script src="js/layer/layer.js"></script>
+<script src="tree.js"></script>
+<script>
+    var baseData = {
+        name:'object0',
+        property:[
+            'ddwee',
+            'sdeewe'
+        ],
+        key:'key-0',
+        posY:0,
+        sub:[
+            {
+                name:'event1',
+                property:[
+                    '1111',
+                    '22222'
+                ],
+                propertyShow:true,
+                key:'key-1',
+                sub:[
+                    {
+                        name:'event2',
+                        property:[],
+                        key:'key-2',
+                        sub:[
+                            {
+                                name:'event3',
+                                property:[],
+                                key:'key-3',
+                            },
+                            {
+                                name:'element3',
+                                property:[],
+                                key:'key-4',
+                            }
+                        ]
+                    },
+                    {
+                        name:'element',
+                        property:[],
+                        key:'key-5',
+                    }
+                ]
+            },
+            {
+                name:'element',
+                property:[],
+                key:'key-6',
+            },
+            {
+                name:'element',
+                property:[],
+                key:'key-8',
+                sub:[
+                    {
+                        name:'event',
+                        property:[],
+                        key:'key-9',
+                    },
+
+                    {
+                        name:'element',
+                        property:[],
+                        key:'key-10',
+                    }
+                ]
+            }
+        ]
+    };
+    tree.init(baseData);
+    tree.render();
+</script>
+
