@@ -1,6 +1,9 @@
 
 
  var tree = {};
+ tree.baseData = null;
+ tree.currentNode = null;
+ tree.currentProperty = null;
 
  tree.init = function (baseData) {
      tree.baseData = baseData;
@@ -45,9 +48,6 @@
          }
          //console.log(e);
      };
-
-
-
 
 
      //拖拽
@@ -95,6 +95,11 @@
  };
 
 
+
+
+
+
+ //添加监听事件
  tree.addListener = function () {
      var list = document.getElementById('node-box').childNodes;
      var item;
@@ -111,7 +116,7 @@
              //选择dom节点
              for(i = 0; i<list.length; i++) {
                  list[i].childNodes[0].setAttribute('stroke-width','1');
-             };
+             }
              this.childNodes[0].setAttribute('stroke-width','3');
 
 
@@ -120,20 +125,18 @@
              tree.currentNode = tree.findNodeByKey(key);
          };
 
-         //双击编辑文字
+         //双击编辑节点
          item.ondblclick = function() {
              var text = this.children[1].textContent;
              layer.open({
                  area: ['500px', '300px']
                  ,title: false
                  ,shade: 0.6 //遮罩透明度
-                 ,content: '<div style="padding:50px;"><input id="text-val" value="'+ text +'"> <button id="save-btn">保存</button></div>'
+                 ,content: '<div style="padding:50px;"><input id="text-val" value="'+ text +'"> <button id="edit-node">保存</button></div>'
              });
-             $("#save-btn").click(function() {
+             $("#edit-node").click(function() {
                  tree.currentNode.name = $("#text-val").val();
-
                  tree.render(tree.baseData);
-
                  layer.closeAll();
              });
          };
@@ -156,8 +159,53 @@
              return false;
          }
      }
+
+     //编辑属性
+     $(".property ul li").dblclick(function() {
+         var text = $(this).text();
+         layer.open({
+             area: ['500px', '300px']
+             ,title: false
+             ,shade: 0.6 //遮罩透明度
+             ,content: '<div style="padding:50px;"><input id="text-val" value="'+ text +'"> <button id="edit-property">保存</button></div>'
+         });
+         $("#edit-property").click(function() {
+             tree.currentNode.name = $("#text-val").val();
+             tree.render(tree.baseData);
+             layer.closeAll();
+         });
+     });
+     $(".property").bind('selectstart', function(){ return false; });
+
+
+     //添加属性
+     $(".add-property").click(function(){
+         var key = $(this).parent().attr('key');
+         alert(key);
+         tree.currentNode = tree.findNodeByKey(key);
+         layer.open({
+             area: ['500px', '300px']
+             ,title: false
+             ,content: '<div style="padding:50px;"><input id="text-val" > <button id="add-property">添加</button></div>'
+         });
+
+         $("#add-property").click(function () {
+             tree.currentNode.property.push($("#text-val").val());
+             tree.render(tree.baseData);
+             layer.closeAll();
+         })
+     });
  };
 
+
+
+
+
+
+
+
+
+ //渲染
  tree.render = function () {
      var level = 0;
      var levelArr = {};
@@ -210,8 +258,6 @@
      getNodePos(levelArr);
 
 
-
-
      var nodeBox = document.getElementById('node-box');
      var lines = document.getElementById('lines');
      var properties = document.getElementById('properties');
@@ -259,11 +305,11 @@
          }
 
          //生成属性列表
-         var propertyHtml = '';
+         var propertyHtml = '<ul>';
          for(i=0; i<node.property.length; i++ ) {
-             propertyHtml += '<div>'+ node.property[i] +'</div>';
+             propertyHtml += '<li>'+ node.property[i] +'</li>';
          }
-         propertyHtml += '<div class="add-property"> 添加属性 </div>';
+         propertyHtml += '<li class="add-property"> 添加属性 </li></ul>';
          var div = document.createElement('div');
          div.setAttribute('key',node.key);
          div.setAttribute('class','property');
@@ -274,33 +320,12 @@
              div.style.display = 'block';
          }
          div.innerHTML = propertyHtml;
+
          properties.appendChild(div);
 
      }
-
      makeTree(tree.baseData);
-
-     $(".add-property").click(function(){
-         var key = this.parentElement.getAttribute('key');
-         tree.currentNode = tree.findNodeByKey(key);
-         layer.open({
-             area: ['500px', '300px']
-             ,title: false
-             ,content: '<div style="padding:50px;"><input id="text-val" > <button id="add-btn">添加</button></div>'
-         });
-
-         $("#add-btn").click(function () {
-             tree.currentNode.property.push($("#text-val").val());
-
-             tree.render(tree.baseData);
-             layer.closeAll();
-         })
-     });
-
-
      this.addListener();
-
-
  };
 
 
