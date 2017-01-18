@@ -162,6 +162,9 @@
 
      //编辑属性
      $(".property ul li").dblclick(function() {
+         var key = $(this).parent().parent().attr('key');
+         tree.currentNode = tree.findNodeByKey(key);
+         var index = $(this).index();
          var text = $(this).text();
          layer.open({
              area: ['500px', '300px']
@@ -170,7 +173,7 @@
              ,content: '<div style="padding:50px;"><input id="text-val" value="'+ text +'"> <button id="edit-property">保存</button></div>'
          });
          $("#edit-property").click(function() {
-             tree.currentNode.name = $("#text-val").val();
+             tree.currentNode.property[index] = $("#text-val").val();
              tree.render(tree.baseData);
              layer.closeAll();
          });
@@ -180,8 +183,7 @@
 
      //添加属性
      $(".add-property").click(function(){
-         var key = $(this).parent().attr('key');
-         alert(key);
+         var key = $(this).parent().parent().attr('key');
          tree.currentNode = tree.findNodeByKey(key);
          layer.open({
              area: ['500px', '300px']
