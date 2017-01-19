@@ -3,7 +3,7 @@
  var tree = {};
  tree.baseData = null;
  tree.currentNode = null;
- tree.currentProperty = null;
+ tree.currentPropertyIndex = null;
 
  tree.init = function (baseData) {
      tree.baseData = baseData;
@@ -37,7 +37,7 @@
          }
 
          //删除节点
-         if(e.keyCode == 8 && e.shiftKey) {
+         if(e.keyCode == 46 && e.shiftKey == false) {
              var arr = tree.currentNode.parent.sub;
              for(var i=0; i < arr.length; i++) {
                  if(arr[i] == tree.currentNode) {
@@ -46,31 +46,40 @@
              }
              tree.render(tree.baseData);
          }
-         //console.log(e);
+
+         //删除属性
+         if(e.keyCode == 46 && e.shiftKey == true) {
+             tree.currentNode.property.splice(tree.currentPropertyIndex,1);
+             tree.render(tree.baseData);
+         }
+
      };
+
+     //高度自适应
+     $(window).on('resize', function() {
+         $("#root").height($(this).height());
+     }).resize();
 
 
      //拖拽
-     var root =document.getElementById('tree-root');
-     var properties = document.getElementById('properties');
-     var matrix = root.transform.baseVal[0].matrix;
+     var root =document.getElementById('tree');
      root.onmousedown = function(e) {
-         var diffX = e.clientX - matrix.e;
-         var diffY = e.clientY - matrix.f;
+         var diffX = e.clientX - root.getBoundingClientRect().left;
+         var diffY = e.clientY - root.getBoundingClientRect().top;
 
          document.onmousemove = function(e) {
-             var left=e.clientX-diffX;
-             var top=e.clientY-diffY;
+             var left = e.clientX - diffX;
+             var top = e.clientY - diffY;
 
-             matrix.e = left;
-             matrix.f = top;
 
-             properties.style.left = (left - 160) + 'px';
-             properties.style.top = (top - 400) + 'px';
+             root.style.left = left + 'px';
+             root.style.top = top + 'px';
+
          };
          document.onmouseup = function(e) {
              this.onmousemove = null;
              this.onmouseup = null;
+
          };
      };
 
@@ -101,84 +110,75 @@
 
  //添加监听事件
  tree.addListener = function () {
-     var list = document.getElementById('node-box').childNodes;
-     var item;
-     var i;
-     for(i = 0; i<list.length; i++) {
-         item = list[i];
-
-         //单击选中节点
-         item.onclick = function() {
-             if(tree.currentKey == this.getAttribute('key')) {
-                 return false;
-             }
-             tree.currentKey = this.getAttribute('key');
-             //选择dom节点
-             for(i = 0; i<list.length; i++) {
-                 list[i].childNodes[0].setAttribute('stroke-width','1');
-             }
-             this.childNodes[0].setAttribute('stroke-width','3');
 
 
-             //找到对应的object对象
-             var key = this.getAttribute('key');
-             tree.currentNode = tree.findNodeByKey(key);
-         };
-
-         //双击编辑节点
-         item.ondblclick = function() {
-             var text = this.children[1].textContent;
-             layer.open({
-                 area: ['500px', '300px']
-                 ,title: false
-                 ,shade: 0.6 //遮罩透明度
-                 ,content: '<div style="padding:50px;"><input id="text-val" value="'+ text +'"> <button id="edit-node">保存</button></div>'
-             });
-             $("#edit-node").click(function() {
-                 tree.currentNode.name = $("#text-val").val();
-                 tree.render(tree.baseData);
-                 layer.closeAll();
-             });
-         };
-
-
-         //显示属性列表
-         item.children[2].onclick = function() {
-             $("div[key='"+$(this).parent().attr('key')+"']").toggle(function(){
-                 if ($(this).is(':hidden')) {
-                     tree.currentNode.propertyShow = false;
-                 } else {
-                     tree.currentNode.propertyShow = true;
-                 }
-             });
-         };
-
-
-         //禁止文字被选中
-         item.onselectstart = function() {
+     //选择节点
+     $(".node").click(function(){
+         var key = $(this).attr("key");
+         if(tree.currentKey == key) {
              return false;
          }
-     }
-
-     //编辑属性
-     $(".property ul li").dblclick(function() {
-         var key = $(this).parent().parent().attr('key');
+         tree.currentKey = key;
+         $(".node").css("border",'solid 1px rgb(115, 161, 191)');
+         $(this).css("border",'solid 3px rgb(115, 161, 191)');
          tree.currentNode = tree.findNodeByKey(key);
-         var index = $(this).index();
+     });
+    //显示属性列表
+     $(".node img").click(function() {
+         $(".property[key='"+$(this).parent().attr('key')+"']").toggle(function(){
+             if ($(this).is(':hidden')) {
+                 tree.currentNode.propertyShow = false;
+             } else {
+                 tree.currentNode.propertyShow = true;
+             }
+         });
+     });
+
+     //编辑节点
+     $(".node").dblclick(function(){
          var text = $(this).text();
          layer.open({
              area: ['500px', '300px']
              ,title: false
              ,shade: 0.6 //遮罩透明度
-             ,content: '<div style="padding:50px;"><input id="text-val" value="'+ text +'"> <button id="edit-property">保存</button></div>'
+             ,content: '<div style="padding:50px;"><input id="text-val" value="'+ text +'"> <button id="edit-node">保存</button></div>'
+         });
+         $("#edit-node").click(function() {
+             tree.currentNode.name = $("#text-val").val();
+             tree.render(tree.baseData);
+             layer.closeAll();
+         });
+     }).bind('selectstart', function(){ return false; });
+
+
+
+     //选择属性
+     $(".property ul li").click(function() {
+         var key = $(this).parent().parent().attr('key');
+         tree.currentNode = tree.findNodeByKey(key);
+         tree.currentPropertyIndex = $(this).index();
+
+         $(".property ul li").removeClass('active');
+         $(this).addClass('active');
+     });
+
+     //编辑属性
+     $(".property ul li").dblclick(function() {
+         layer.open({
+             area: ['500px', '300px']
+             ,title: false
+             ,shade: 0.6 //遮罩透明度
+             ,content: '<div style="padding:50px;"><input id="text-val" value="'+ $(this).text() +'"> <button id="edit-property">保存</button></div>'
          });
          $("#edit-property").click(function() {
-             tree.currentNode.property[index] = $("#text-val").val();
+             tree.currentNode.property[tree.currentPropertyIndex] = $("#text-val").val();
              tree.render(tree.baseData);
              layer.closeAll();
          });
      });
      $(".property").bind('selectstart', function(){ return false; });
+
+
 
 
      //添加属性
@@ -260,10 +260,10 @@
      getNodePos(levelArr);
 
 
-     var nodeBox = document.getElementById('node-box');
+     var nodes = document.getElementById('nodes');
      var lines = document.getElementById('lines');
      var properties = document.getElementById('properties');
-     nodeBox.innerHTML = '';
+     nodes.innerHTML = '';
      lines.innerHTML = '';
      properties.innerHTML = '';
      function makeTree (node) {
@@ -280,20 +280,26 @@
              borderWidth = 3;
          }
          //生成节点
-         var newNode = document.createElementNS('http://www.w3.org/2000/svg','g');
-         newNode.setAttribute('transform','translate( '+ posX +' '+ posY +' )');
-         newNode.setAttribute('key',node.key);
-         var innerHTML = '<path fill="rgb(238, 243, 246)" stroke="rgb(115, 161, 191)"\
-            d="M-17,-13h90a3,3,0,0,1,3,3v20a3,3,0,0,1,-3,3h-90a3,3,0,0,1,-3,-3v-20a3,3,0,0,1,3,-3z"\
-            stroke-width="'+ borderWidth +'"></path>\
-            <text dominant-baseline="text-before-edge" font-size="14" dy="0" x="-15" y="-7">'+ node.name +'</text>\
-            <path fill="black" stroke="none" style="cursor: pointer;" transform="translate( 52.5 -6.5 )"\
-            d="M9,9H3V8h6L9,9L9,9z M9,7H3V6h6V7z M9,5H3V4h6V5z M8.5,11H2V2h8v7.5 M9,12l2-2V1H1v11" ></path>\
-            ';
+         //var newNode = document.createElementNS('http://www.w3.org/2000/svg','g');
+         //newNode.setAttribute('transform','translate( '+ posX +' '+ posY +' )');
+         //newNode.setAttribute('key',node.key);
+         //var innerHTML = '<path fill="rgb(238, 243, 246)" stroke="rgb(115, 161, 191)"\
+         //   d="M-17,-13h90a3,3,0,0,1,3,3v20a3,3,0,0,1,-3,3h-90a3,3,0,0,1,-3,-3v-20a3,3,0,0,1,3,-3z"\
+         //   stroke-width="'+ borderWidth +'"></path>\
+         //   <text dominant-baseline="text-before-edge" font-size="14" dy="0" x="-15" y="-7">'+ node.name +'</text>\
+         //   <path fill="black" stroke="none" style="cursor: pointer;" transform="translate( 52.5 -6.5 )"\
+         //   d="M9,9H3V8h6L9,9L9,9z M9,7H3V6h6V7z M9,5H3V4h6V5z M8.5,11H2V2h8v7.5 M9,12l2-2V1H1v11" ></path>\
+         //   ';
+         //newNode.innerHTML = innerHTML;
+         //nodeBox.appendChild(newNode);
 
-         newNode.innerHTML = innerHTML;
-
-         nodeBox.appendChild(newNode);
+         var nodeDiv = document.createElement('div');
+         nodeDiv.setAttribute('key',node.key);
+         nodeDiv.setAttribute('class','node');
+         nodeDiv.style.left = (posX + 145) + 'px';
+         nodeDiv.style.top = (posY + 394) + 'px';
+         nodeDiv.innerHTML = node.name + ' <img src="asset/images/property.gif" />';
+         nodes.appendChild(nodeDiv);
 
          //生成连接线
          var parentY = 0;
@@ -311,11 +317,10 @@
          for(i=0; i<node.property.length; i++ ) {
              propertyHtml += '<li>'+ node.property[i] +'</li>';
          }
-         propertyHtml += '<li class="add-property"> 添加属性 </li></ul>';
+         propertyHtml += '<div class="add-property"> 添加属性 </div></ul>';
          var div = document.createElement('div');
          div.setAttribute('key',node.key);
          div.setAttribute('class','property');
-         div.style.position = 'absolute';
          div.style.left = (posX+160) + 'px';
          div.style.top = (posY + 420) + 'px';
          if(node.propertyShow) {
