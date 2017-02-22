@@ -298,7 +298,7 @@
          nodeDiv.setAttribute('class','node');
          nodeDiv.style.left = (posX + 145) + 'px';
          nodeDiv.style.top = (posY + 394) + 'px';
-         nodeDiv.innerHTML = node.name + ' <img src="asset/images/property.gif" />';
+         nodeDiv.innerHTML = node.name + ' <img src="asset/img/property.gif" />';
          nodes.appendChild(nodeDiv);
 
          //生成连接线
