@@ -160,6 +160,23 @@
 
          $(".property ul li").removeClass('active');
          $(this).addClass('active');
+		 
+		 //定位弹窗位置
+		 var top = $(this).offset().top;
+		 var height = 500;
+		 var winHeight = $(window).height();
+		 var contentTop = top - 100;
+		 if(contentTop < 0) {
+			 contentTop = 0;
+		 }
+		 if(contentTop > winHeight-height) {
+			 contentTop = winHeight-height - 10;
+		 }
+		 var left = $(this).offset().left;
+		 contentLeft = left + 40 + $(this).width();
+
+		 $("#overlayDivArrow").animate({'top':top-contentTop + 15});
+		 $("#overlayDiv").animate({'left':contentLeft,'top':contentTop});
      });
 
      //编辑属性
