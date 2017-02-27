@@ -63,17 +63,24 @@
 
      //拖拽
      var root =document.getElementById('tree');
+     var overlay =document.getElementById('overlayDiv');
      root.onmousedown = function(e) {
-         var diffX = e.clientX - root.getBoundingClientRect().left;
-         var diffY = e.clientY - root.getBoundingClientRect().top;
+         var treeX = e.clientX - root.getBoundingClientRect().left;
+         var treeY = e.clientY - root.getBoundingClientRect().top;
+         var overlayX = e.clientX - overlay.getBoundingClientRect().left;
+         var overlayY = e.clientY - overlay.getBoundingClientRect().top;
 
          document.onmousemove = function(e) {
-             var left = e.clientX - diffX;
-             var top = e.clientY - diffY;
+             var treeLeft = e.clientX - treeX;
+             var treeTop = e.clientY - treeY;
+             var overlayLeft = e.clientX - overlayX;
+             var overlayTop = e.clientY - overlayY;
 
 
-             root.style.left = left + 'px';
-             root.style.top = top + 'px';
+             root.style.left = treeLeft + 'px';
+             root.style.top = treeTop + 'px';
+             overlay.style.left = overlayLeft + 'px';
+             overlay.style.top = overlayTop + 'px';
 
          };
          document.onmouseup = function(e) {
@@ -175,8 +182,14 @@
 		 var left = $(this).offset().left;
 		 contentLeft = left + 40 + $(this).width();
 
+
 		 $("#overlayDivArrow").animate({'top':top-contentTop + 15});
 		 $("#overlayDiv").animate({'left':contentLeft,'top':contentTop});
+         $("#overlayDiv").show();
+     });
+
+     $("#overlayDivCloseBtn").click(function () {
+         $("#overlayDiv").hide();
      });
 
      //编辑属性
