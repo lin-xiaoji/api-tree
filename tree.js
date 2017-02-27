@@ -64,7 +64,7 @@
      //拖拽
      var root =document.getElementById('tree');
      var overlay =document.getElementById('overlayDiv');
-     root.onmousedown = function(e) {
+     overlay.onmousedown = root.onmousedown = function(e) {
          var treeX = e.clientX - root.getBoundingClientRect().left;
          var treeY = e.clientY - root.getBoundingClientRect().top;
          var overlayX = e.clientX - overlay.getBoundingClientRect().left;
@@ -164,7 +164,15 @@
          var key = $(this).parent().parent().attr('key');
          tree.currentNode = tree.findNodeByKey(key);
          tree.currentPropertyIndex = $(this).index();
+         var property = tree.currentNode.property[tree.currentPropertyIndex];
+         var content = property.content;
 
+         $(".apiDetail h2").html(property.name);
+         $(".apiContent").html('');
+         content.map(function (item) {
+             var itemHtml = '<h3>' + item.name + '</h3><div class="desc">' + item.desc + '</div>';
+             $(".apiContent").append(itemHtml);
+         })
          $(".property ul li").removeClass('active');
          $(this).addClass('active');
 		 
@@ -327,7 +335,7 @@
          nodeDiv.setAttribute('key',node.key);
          nodeDiv.setAttribute('class','node');
          nodeDiv.style.left = (posX + 145) + 'px';
-         nodeDiv.style.top = (posY + 394) + 'px';
+         nodeDiv.style.top = (posY + 385) + 'px';
          nodeDiv.innerHTML = node.name + ' <img src="asset/img/property.gif" />';
          nodes.appendChild(nodeDiv);
 
@@ -345,7 +353,7 @@
          //生成属性列表
          var propertyHtml = '<ul>';
          for(i=0; i<node.property.length; i++ ) {
-             propertyHtml += '<li>'+ node.property[i] +'</li>';
+             propertyHtml += '<li>'+ node.property[i].name +'</li>';
          }
          propertyHtml += '<div class="add-property"> 添加属性 </div></ul>';
          var div = document.createElement('div');

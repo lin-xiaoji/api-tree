@@ -27,36 +27,24 @@
 
     </div>
 
-    <div id="overlayDiv" class="baby_overlay" style="top: 40px; left: 545.5px; opacity: 1; display: block; padding-bottom: 0px;">
+    <div id="overlayDiv" class="baby_overlay" style="top: 40px; left: 545.5px; opacity: 1; display: none; padding-bottom: 0px;">
         <div id="overlayContent" class="content round clearfix" style="height: 500px;">
             <a id="overlayDivCloseBtn" class="close"></a>
-            <div id="overlayDetailDiv" class="details"><div class="apiDetail">
-                <div>
-                    <h2><span class="path">zTreeObj.</span>reAsyncChildNodes</h2>
-                    <h3>概述<span class="h3_info">[ 依赖 <span class="highlight_green">jquery.ztree.core</span> 核心 js ]</span></h3>
-                    <div class="desc">
-                        <p></p>
-                        <div class="longdesc">
-                            <p>强行异步加载父节点的子节点。<span class="highlight_red">[setting.async.enable = true 时有效]</span></p>
-                            <p class="highlight_red">已经加载过的父节点可反复使用此方法重新加载。</p>
-                            <p class="highlight_red">请通过 zTree 对象执行此方法。</p>
+            <div id="overlayDetailDiv" class="details">
+                <div class="apiDetail">
+                    <h2>reAsyncChildNodes</h2>
+                    <div class="apiContent">
+                        <h3>Function 参数说明</h3>
+                        <div class="desc">
+                            <h4><b>parentNode</b><span>JSON</span></h4>
+                            <p>指定需要异步加载的父节点 JSON 数据</p>
+                            <p class="highlight_red">1、parentNode = null 时，相当于从根节点 Root 进行异步加载</p>
+
                         </div>
                     </div>
-                    <h3>Function 参数说明</h3>
-                    <div class="desc">
-                        <h4><b>parentNode</b><span>JSON</span></h4>
-                        <p>指定需要异步加载的父节点 JSON 数据</p>
-                        <p class="highlight_red">1、parentNode = null 时，相当于从根节点 Root 进行异步加载</p>
-
-                    </div>
-                    <h3>function 举例</h3>
-                    <h4>1. 重新异步加载 zTree </h4>
-                    <pre xmlns=""><code>var treeObj = $.fn.zTree.getZTreeObj("tree");
-treeObj.reAsyncChildNodes(null, "refresh");
-</code></pre>
 
                 </div>
-            </div></div>
+            </div>
         </div>
         <div id="overlayDivArrow" class="baby_overlay_arrow" style="top:100px;"></div>
     </div>
@@ -70,8 +58,30 @@ treeObj.reAsyncChildNodes(null, "refresh");
     var baseData = {
         name:'object0',
         property:[
-            'ddwee',
-            'sdeewe'
+            {
+                name:'属性1',
+                content:[
+                    {
+                        name:'概述1111',
+                        desc:'ddseedssd11111'
+                    },{
+                        name:'参数111',
+                        desc:'ddseedssd'
+                    }
+                ]
+            },
+            {
+                name:'属性2',
+                content:[
+                    {
+                        name:'概述222',
+                        desc:'ddseedssd22222'
+                    },{
+                        name:'参数22',
+                        desc:'ddsee2222dssd'
+                    }
+                ]
+            }
         ],
         key:'key-0',
         posY:0,
@@ -79,10 +89,32 @@ treeObj.reAsyncChildNodes(null, "refresh");
             {
                 name:'event1',
                 property:[
-                    '1111',
-                    '22222'
+                    {
+                        name:'属性1',
+                        content:[
+                            {
+                                name:'概述1111',
+                                desc:'ddseedssd11111'
+                            },{
+                                name:'参数111',
+                                desc:'ddseedssd'
+                            }
+                        ]
+                    },
+                    {
+                        name:'属性2',
+                        content:[
+                            {
+                                name:'概述222',
+                                desc:'ddseedssd22222'
+                            },{
+                                name:'参数22',
+                                desc:'ddsee2222dssd'
+                            }
+                        ]
+                    }
                 ],
-                propertyShow:true,
+                propertyShow:false,
                 key:'key-1',
                 sub:[
                     {
