@@ -342,7 +342,8 @@
          if(node.parent) {
              parentY = node.parent.posY;
              var newLine = document.createElementNS('http://www.w3.org/2000/svg','path');
-             newLine.setAttribute('stroke','#999999');
+             newLine.setAttribute('stroke','#2eb5e5');
+			 newLine.setAttribute('stroke-width','2');
              newLine.setAttribute('fill','none');
              newLine.setAttribute('d','M'+ posX +' '+ posY +' L'+ (posX-100) +' '+ posY +' L'+ (posX-100) +' '+ parentY +' L'+ (posX-200) +' '+ parentY +'');
              lines.appendChild(newLine);
