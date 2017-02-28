@@ -132,11 +132,13 @@
      });
     //显示属性列表
      $(".node img").click(function() {
+         $(".property").slideUp();
          $(".property[key='"+$(this).parent().attr('key')+"']").toggle(function(){
              if ($(this).is(':hidden')) {
                  tree.currentNode.propertyShow = false;
              } else {
                  tree.currentNode.propertyShow = true;
+
              }
          });
      });
@@ -165,14 +167,10 @@
          tree.currentNode = tree.findNodeByKey(key);
          tree.currentPropertyIndex = $(this).index();
          var property = tree.currentNode.property[tree.currentPropertyIndex];
-         var content = property.content;
 
          $(".apiDetail h2").html(property.name);
-         $(".apiContent").html('');
-         content.map(function (item) {
-             var itemHtml = '<h3>' + item.name + '</h3><div class="desc">' + item.desc + '</div>';
-             $(".apiContent").append(itemHtml);
-         })
+         $(".desc").html(property.content);
+
          $(".property ul li").removeClass('active');
          $(this).addClass('active');
 		 
