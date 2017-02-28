@@ -132,7 +132,7 @@
      });
     //显示属性列表
      $(".node img").click(function() {
-         $(".property").slideUp();
+         $(".property").hide();
          $(".property[key='"+$(this).parent().attr('key')+"']").toggle(function(){
              if ($(this).is(':hidden')) {
                  tree.currentNode.propertyShow = false;
@@ -333,7 +333,7 @@
          nodeDiv.setAttribute('key',node.key);
          nodeDiv.setAttribute('class','node');
          nodeDiv.style.left = (posX + 145) + 'px';
-         nodeDiv.style.top = (posY + 385) + 'px';
+         nodeDiv.style.top = (posY + 375) + 'px';
          nodeDiv.innerHTML = node.name + ' <img src="asset/img/property.gif" />';
          nodes.appendChild(nodeDiv);
 
@@ -345,7 +345,7 @@
              newLine.setAttribute('stroke','#2eb5e5');
 			 newLine.setAttribute('stroke-width','2');
              newLine.setAttribute('fill','none');
-             newLine.setAttribute('d','M'+ posX +' '+ posY +' L'+ (posX-100) +' '+ posY +' L'+ (posX-100) +' '+ parentY +' L'+ (posX-200) +' '+ parentY +'');
+             newLine.setAttribute('d','M'+ posX +' '+ posY +' L'+ (posX-50) +' '+ posY +' L'+ (posX-50) +' '+ parentY +' L'+ (posX-200) +' '+ parentY +'');
              lines.appendChild(newLine);
          }
 
