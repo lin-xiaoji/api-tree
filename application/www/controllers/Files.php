@@ -2,10 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Files extends Common {
-	function __construct() {
-		parent::__construct();
 
-	}
 	function index() {
 		$userid = $this->get("userid",1);
 		$files = M("files")->getList(['userid'=>$userid],'id,name');
