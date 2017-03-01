@@ -1,0 +1,88 @@
+{include file="../public/header.html"}
+
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header header header-demo">
+        <div class="layui-main">
+            <a class="logo" style="left: 0;" target="_blank" href="http://www.trjcn.com">
+                <span style="font-size: 22px;">投融界</span>
+            </a>
+
+            <ul class="layui-nav">
+			{foreach from=$list item=item}
+                <li class="layui-nav-item {if $item.id==$parent_id}layui-this{/if}">
+                    <a href="/home?parent_id={$item.id}">{$item.name}</a>
+                </li>
+			{/foreach}
+
+               
+                <li class="layui-nav-item">
+                    <a href="javascript:;" class="admin-header-user">
+                        <img src="/admin/images/0.jpg" style="width: 40px; height: 40px; border-radius: 100%;" />
+                        <span>beginner</span>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;"><i class="fa fa-user-circle" aria-hidden="true"></i> 个人信息</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;"><i class="fa fa-gear" aria-hidden="true"></i> 设置</a>
+                        </dd>
+                        <dd>
+                            <a href="login.html"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree admin-nav-tree">
+			{foreach from=$leftMenu item=item}
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">{$item.name}</a>
+                    <dl class="layui-nav-child">
+					{foreach from=$item.subMenu item=sub}
+                        <dd >
+                            <a href="javascript:;" data-url="/{$sub.controller}/{$sub.method}/">
+
+                                <cite>{$sub.name}</cite>
+                            </a>
+                        </dd>
+                    {/foreach}
+                    </dl>
+                </li>
+				{/foreach}
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body" style="bottom: 0;">
+        <div class="layui-tab admin-nav-card" lay-filter="admin-tab">
+            <ul class="layui-tab-title" id="admin-tab">
+                
+            </ul>
+            <div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;" id="admin-tab-container">
+                
+            </div>
+        </div>
+    </div>
+    <div class="layui-footer footer footer-demo">
+        <div class="layui-main">
+            <p>2016 &copy; 投融界 {$result}
+            </p>
+        </div>
+    </div>
+    <div class="site-tree-mobile layui-hide">
+        <i class="layui-icon">&#xe602;</i>
+    </div>
+    <div class="site-mobile-shade"></div>
+
+</div>
+
+<script>
+    layui.use('index');
+</script>
+
+
+{include file="../public/footer.html"}

@@ -1,0 +1,70 @@
+{include file="../public/header.html"}
+
+<div class="layui-main">
+
+ 
+		<form class="layui-form" method="post">
+		<input type="hidden" name="id" value="{$item.id}" >	
+			<div class="layui-form-item">
+			<label class="layui-form-label">所属父栏目</label>
+			<div class="layui-input-inline">
+
+			  <select name="parent_id">
+					<option value="0">请选择</option>
+					{foreach from=$menu item=menuItem}
+						<option value="{$menuItem.id}" {if $menuItem.id == $item.parent_id}selected{/if}>{$menuItem.name}</option>
+						{foreach from=$menuItem.sub item=sub}
+								<option value="{$sub.id}" {if $sub.id == $item.parent_id}selected{/if}>　　{$sub.name}</option>
+						{/foreach}
+					{/foreach}
+					</select>
+			</div>
+		  </div>
+		  <div class="layui-form-item">
+			<label class="layui-form-label">栏目名称</label>
+			<div class="layui-input-block">
+			  <input type="text" name="name" value="{$item.name}" lay-verify="required" autocomplete="off"  class="layui-input">
+			</div>
+		  </div>
+		  <div class="layui-form-item">
+			<label class="layui-form-label">目录</label>
+			<div class="layui-input-inline">
+			  <input type="text" name="module" value="{$item.module}"  autocomplete="off" class="layui-input">
+			</div>
+		  </div>
+		  <div class="layui-form-item">
+			<label class="layui-form-label">控制器</label>
+			<div class="layui-input-inline">
+			  <input type="tel" name="controller" value="{$item.controller}" autocomplete="off" class="layui-input">
+			</div>
+		  </div>
+		  <div class="layui-form-item">
+			<label class="layui-form-label">方法</label>
+			<div class="layui-input-inline">
+			  <input type="text" name="method" value="{$item.method}" autocomplete="off" class="layui-input">
+			</div>
+		  </div>
+		  
+		  <div class="layui-form-item">
+			<div class="layui-inline">
+			  <label class="layui-form-label">排序</label>
+			  <div class="layui-input-inline">
+				<input type="number" name="sort" value="{$item.sort}" lay-verify="number" autocomplete="off" class="layui-input" value="0">
+			  </div>
+			</div>
+			<br /><br />
+		  <div class="layui-form-item">
+			<div class="layui-input-block">
+			  <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+			  <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		  </div>
+		</form>
+</div>
+
+    
+
+
+
+
+{include file="../public/footer.html"}

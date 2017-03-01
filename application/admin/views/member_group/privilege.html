@@ -1,0 +1,33 @@
+{include file="../public/header.html"}
+<div class="layui-main">
+<form class="layui-form" method="post">
+    	<table class="layui-table" lay-skin="row">
+        	<tbody>
+				{foreach from=$menu item=item}
+                <tr>
+					<td class="fn-tal"> <input type="checkbox" name="privilege[]" value="{$item.id}" {if in_array($item.id,$privilege)}checked{/if} />{$item.name}</td>
+                </tr>
+				
+					{foreach from=$item.sub item=sub}
+					<tr>
+						<td class="fn-tal">　　　　 <input type="checkbox" name="privilege[]" value="{$sub.id}" {if in_array($sub.id,$privilege)}checked{/if}/>{$sub.name}</td>
+					</tr>
+						{foreach from=$sub.sub item=subsub}
+						<tr>
+							<td class="fn-tal">　　　　　　　　 <input type="checkbox" name="privilege[]" value="{$subsub.id}"  {if in_array($subsub.id,$privilege)}checked{/if} />{$subsub.name}</td>
+						</tr>
+						{/foreach}  
+					{/foreach}  
+					
+                {/foreach}
+            </tbody>
+        </table>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+			  <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+
+			</div>
+		  </div>
+		  </form>
+</div>
+{include file="../public/footer.html"}

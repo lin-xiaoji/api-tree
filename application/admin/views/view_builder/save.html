@@ -1,0 +1,69 @@
+{include file="../public/header.html"}
+<style>
+.layui-form-label { width:20%;}
+.layui-main { padding-top:30px;}
+.layui-input-block { margin-left:150px;}
+</style>
+<div class="layui-main">
+
+ 
+		<form class="layui-form" method="post">
+		
+		 <div class="layui-form-item">
+			<label class="layui-form-label">保存到</label>
+			<div class="layui-input-block" >
+				<input type="text" name="path" value="" lay-verify="required" class="layui-input">
+			</div>
+			<div class="layui-input-block">(保存目录，如：demo，默认文件名edit.htm</div>
+		  </div>
+		  
+		  
+		  
+		  <div class="layui-form-item">
+			<label class="layui-form-label">生成php文件</label>
+			<div class="layui-input-block">
+				<input type="checkbox" name="controllerFile" value="1" checked="checked" />
+			</div>
+		  </div>
+		  
+		  
+
+		  <div class="layui-form-item">
+			<div class="layui-input-block">
+			  <button class="layui-btn" lay-submit="*" lay-filter="demo1">立即提交</button>
+			</div>
+		  </div>
+		 </form>
+</div>
+
+    
+
+
+
+
+
+<script>
+$(function() {
+	$('.layui-form').submit(function(){
+		$.post('/view_builder/save',{ 
+			path:$("input[name=path]").val(),
+			controllerFile:$("input[name=controllerFile]:checked").val(),
+			content:parent.$(".layui-form").prop("outerHTML"),
+			listContent:parent.$(".data-list").prop("outerHTML")
+		},
+		function(data){
+			if(data == 'ok') {
+				alert('保存成功');
+				var index = parent.layui.layer.getFrameIndex(window.name);
+				parent.layui.layer.close(index);
+			}else{
+				alert(data);
+			}
+		});
+		return false;
+	});
+});
+
+</script>
+
+{include file="../public/footer.html"}

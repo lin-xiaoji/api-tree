@@ -1,0 +1,85 @@
+{include file="../public/header.html"}
+
+        <div class="layui-main">
+            <form method="post" action="http://demo.qukiss.com/admin/news/filter" class="layui-form">
+				<div class="layui-input-inline">
+                        
+						<a href="javascript:;" class="layui-btn layer-open" data-url="/menu/edit" ><i class="layui-icon">&#xe608;</i> 添加栏目</a>
+                    </div>
+            </form>
+            
+            <table class="layui-table" lay-skin="row">
+                    <thead>
+                    <tr>
+                        <th style="width: 30px;">ID</th>
+                        <th style="width: 30px;">排序</th>
+                        <th>栏目名称</th>
+                        <th>目录</th>
+                        <th>控制器</th>
+                        <th>方法</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+					
+					{foreach from=$menu item=item}
+                       <tr>
+                        <td>{$item.id}</td>
+                        <td>{$item.sort}</td>
+                        <td> {$item.name}</td>
+                        <td>{$item.module}</td>
+                        <td>{$item.controller}</td>
+                        <td>{$item.method}</td>
+                        <td>
+                            
+                            <a href="javascript:;" class="layui-btn layui-btn-mini edit" data-id="{$item.id}">编辑</a>
+                            <a href="javascript:;" class="layui-btn layui-btn-danger layui-btn-mini del" data-id="{$item.id}">删除</a>                    
+							<a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-mini layer-open" data-url="/menu/edit?parent_id={$item.id}">添加子菜单</a>
+							
+							 </td>
+                    </tr>
+					
+					{foreach from=$item.sub item=sub}
+							<tr>
+								<td>{$sub.id}</td>
+								<td>{$sub.sort}</td>
+								<td>　　　　{$sub.name}</td>
+								<td>{$sub.module}</td>
+								<td>{$sub.controller}</td>
+								<td>{$sub.method}</td>
+								<td>
+									<a href="javascript:;" class="layui-btn layui-btn-mini edit" data-id="{$sub.id}">编辑</a>
+                            		<a href="javascript:;" class="layui-btn layui-btn-danger layui-btn-mini del" data-id="{$sub.id}">删除</a>                    
+									<a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-mini layer-open" data-url="/menu/edit?parent_id={$sub.id}">添加子菜单</a>
+							</tr>
+							{foreach from=$sub.sub item=subsub}		
+										<tr>
+											<td>{$subsub.id}</td>
+											<td>{$subsub.sort}</td>
+											<td>　　　　　　　　{$subsub.name}</td>
+											<td>{$subsub.module}</td>
+											<td>{$subsub.controller}</td>
+											<td>{$subsub.method}</td>
+											<td>
+												<a href="javascript:;" class="layui-btn layui-btn-mini edit" data-id="{$subsub.id}">编辑</a>
+                            					<a href="javascript:;" class="layui-btn layui-btn-danger layui-btn-mini del" data-id="{$subsub.id}">删除</a>                    
+																</td>
+										</tr>
+							{/foreach}
+					{/foreach}   	
+                 {/foreach}               
+                </tbody>
+                </table>
+            <div id="page"></div>
+        
+        
+        
+        <input id="iframe_status" value="" hidden="hidden">
+        </div>
+
+    
+
+
+
+
+{include file="../public/footer.html"}

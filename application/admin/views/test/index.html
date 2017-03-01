@@ -1,0 +1,47 @@
+{include file="../public/header.html"}
+			<div class="layui-main data-list">
+
+            <div class="search-form">				<form method="get" class="layui-form">
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" id="keyword" name="keyword" placeholder="关键词">
+                    </div>
+                    <div class="layui-input-inline">
+                        <button class="layui-btn" lay-submit="" lay-filter="newsfilter"><i class="layui-icon"></i> 搜索</button> 
+						<a href="javascript:;" class="layui-btn add"><i class="layui-icon"></i> 添加</a>
+                    </div>
+            </form>
+</div>
+            <table class="layui-table" lay-skin="row">
+                    <thead>
+                    <tr class="table-head ">
+                        <th field="id" style="width: 30px;" class="">ID</th>
+                        <th field="name" hash="item-0" class="">文本框</th>
+                        <th field="" class="" hash="item-1">文本框</th>
+                        <th field="" class="" hash="item-2">下拉菜单</th>
+                        <th field="" class="on-selected" hash="item-3">多选框</th>
+                        <th field="create_at" id="th-end" class="">添加时间</th>
+                        <th id="th-end" class="">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+ 					{foreach from=$list item=item}
+					<tr>
+ 						<td>{$item.id}</td>
+ 						<td>{$item.name}</td>
+ 						<td>{$item.}</td>
+ 						<td>{$item.}</td>
+ 						<td>{$item.}</td>
+ 						<td>{$item.create_at}</td>
+ 						<td>
+                            <a href="javascript:;" class="layui-btn layui-btn-mini edit" data-id="{$item.id}">编辑</a>
+                            <a href="javascript:;" class="layui-btn layui-btn-danger layui-btn-mini del" data-id="{$item.id}">删除</a>
+						</td>
+                    </tr>
+					{/foreach}
+					       
+                	</tbody>
+                </table>
+            <div id="page"></div>
+        
+</div>
+			{include file="../public/footer.html"}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>管理后台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="/admin/plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="/admin/css/global.css" media="all">
+	
+<script  src="/admin/js/lib/jquery_1.10.2.js"></script>
+<script  src="/admin/plugins/layui/layui.js"></script>
+
+<script>
+    layui.config({ base: '/admin/js/modules/'});
+	
+	//公共处理
+	layui.use(['layer','form'], function(){
+		var $ = layui.jquery;
+		var layer = parent.layui.layer;
+		var controller = location.pathname.split('/')[1];
+		
+		//初始化表单
+		var form = layui.form();
+		
+		//弹窗
+		function layerOpen(url) {
+			layer.open({
+				type: 2,
+				title:'管理操作',
+				area: ['800px', '500px'], //宽高
+				content: url
+			});
+		}
+		
+		$('.layer-open').click(function(){
+			layerOpen($(this).attr('data-url'));
+		});
+		
+		
+		
+		//添加
+		$(".add").click(function(){
+			layerOpen('/'+controller+'/edit');
+		});
+		
+		//编辑
+		$(".edit").click(function(){
+			layerOpen('/'+controller+'/edit?id='+$(this).attr('data-id'));
+		});
+
+
+		//删除处理
+		$(".del").click(function(){
+			if(confirm('确定要删除吗？')){
+				
+				$.get('/'+controller+'/del?id='+$(this).attr('data-id'),{},function(data){
+					if(data == 'ok') {
+						location.reload();
+					} else {
+						alert(data);
+					}
+				});
+			}
+		});
+	});
+</script>
+</head>

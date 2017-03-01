@@ -1,0 +1,45 @@
+{include file="../public/header.html"}
+
+        <div class="layui-main">
+
+                <div class="layui-form-item">
+
+                    
+                    <div class="layui-input-inline">
+						<a href="javascript:;" class="layui-btn add" ><i class="layui-icon">&#xe608;</i> 添加</a>
+                    </div>
+                </div>
+            
+            <table class="layui-table" lay-skin="row">
+                    <thead>
+                    <tr>
+                        <th width="63" style="width: 30px;">ID</th>
+                        <th width="617">权限组名称</th>
+                        <th width="141">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+					{foreach from=$list item=item}
+					<tr>
+                        <td>{$item.id}</td>
+                        <td> {$item.name}</td>
+                        <td>
+                            <a href="javascript:;" class="layui-btn layui-btn-mini edit" data-id="{$item.id}">编辑</a>
+                            <a href="javascript:;" class="layui-btn layui-btn-danger layui-btn-mini del" data-id="{$item.id}">删除</a>                
+							<a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-mini layer-open" data-url="/member_group/privilege?id={$item.id}">设置权限</a>							                   </td>
+                    </tr>  
+					{/foreach}          
+                </tbody>
+                </table>
+            <div id="page" ></div>
+        
+        
+        <input id="iframe_status" value="" hidden="hidden">
+        </div>
+
+    
+
+
+
+
+{include file="../public/footer.html"}

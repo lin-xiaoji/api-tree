@@ -1,0 +1,65 @@
+{include file="../public/header.html"}
+			<div class="layui-main">
+			<form class="layui-form " method="post" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="{$item.id}" class="">	
+									 
+			
+
+
+			<div class="layui-form-item " hash="item-0">
+				
+				<label class="layui-form-label layui-input-required">文本框</label>
+				<div class="layui-input-block" style="width:50%">
+					<input type="text" name="name" value="{$item.name}" lay-verify="required" autocomplete="off" class="layui-input form-item">
+				</div>
+			</div>
+			
+
+		  
+		  
+		  
+
+
+			<div class="layui-form-item" hash="item-1">
+				
+				<label class="layui-form-label">文本框</label>
+				<div class="layui-input-block" style="width:50%">
+					<input type="text" name="" autocomplete="off" class="layui-input form-item">
+				</div>
+			</div>
+
+
+			<div class="layui-form-item" hash="item-2">
+				
+				<label class="layui-form-label">下拉菜单</label>
+				<div class="layui-input-block" style="width:20%">
+					<select name="" class="form-item">
+						<option>请选择</option>
+			  		</select><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择" value="请选择" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd lay-value="请选择" class="layui-this">请选择</dd></dl></div>
+				</div>
+			</div>
+
+
+			<div class="layui-form-item on-selected" hash="item-3">
+				
+				<label class="layui-form-label">多选框</label>
+				<div class="layui-input-block" style="width:80%">
+					<input type="checkbox" name="" title="选项1" class="form-item"><div class="layui-unselect layui-form-checkbox"><span>选项1</span><i class="layui-icon"></i></div>
+			 		<input type="checkbox" name="" title="选项2" class="form-item"><div class="layui-unselect layui-form-checkbox"><span>选项2</span><i class="layui-icon"></i></div>
+			  		<input type="checkbox" name="" title="选项3" class="form-item"><div class="layui-unselect layui-form-checkbox"><span>选项3</span><i class="layui-icon"></i></div>
+				</div>
+			</div><div class="clear form-end "></div>
+		  
+
+		  
+
+
+			<div class="layui-form-item ">
+			<div class="layui-input-block">
+			  <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+			  <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		  </div>
+		 </form>
+			</div>
+			{include file="../public/footer.html"}

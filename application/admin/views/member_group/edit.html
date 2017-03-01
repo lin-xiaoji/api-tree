@@ -1,0 +1,32 @@
+{include file="../public/header.html"}
+
+<div class="layui-main">
+
+ 
+		<form class="layui-form" method="post">
+		<input type="hidden" name="id" value="{$item.id}" >	
+			
+		  <div class="layui-form-item">
+			<label class="layui-form-label">权限组名称</label>
+			<div class="layui-input-block">
+			  <input type="text" name="name" value="{$item.name}" lay-verify="required" autocomplete="off"  class="layui-input">
+			</div>
+		  </div>
+		  
+		  
+
+		  <div class="layui-form-item">
+			<div class="layui-input-block">
+			  <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+			  <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		  </div>
+		</form>
+</div>
+
+    
+
+
+
+
+{include file="../public/footer.html"}

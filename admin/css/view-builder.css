@@ -1,0 +1,124 @@
+.form-group:hover {
+	background: #D0E2F3;
+	border-radius: 3px;
+}
+.form-group .control-label {
+	cursor:move;
+}
+.on-selected {
+	border:solid #009688 1px;
+	background: #5FB878;
+	border-radius: 3px;
+}
+.left-box { border:solid #CCCCCC 1px; width:400px; height:570px; float:left; margin-right:20px;}
+.right-box { border:solid #CCCCCC 1px; width:800px; float:left; padding:20px;}
+
+.form-option { line-height:20px;}
+.form-option span{ display:block; float:left; width:90px; text-align:center; cursor:pointer; margin-bottom:10px;}
+.form-option span.active{
+	border:solid #57A5CA 1px;
+	background: #D0E2F3;
+	border-radius: 3px;
+}
+.components-edit {
+	padding:0 25px;
+}
+.components-label {
+	font-weight:bold;
+	font-size:14px;
+	line-height:30px;
+	margin-top:20px;
+	border-bottom:dashed 1px #CCCCCC;
+	margin-bottom:10px;
+}
+.components-props {
+	line-height:35px;
+}
+.utilityCol {
+	padding:20px;
+}
+.utility {
+    width: 150px;
+    margin: 6px 2%;
+    background: #FFF;
+    padding: 5px;
+    z-index: 10;
+    border: 1px dashed #999;
+    border-radius: 3px;
+    cursor: pointer;
+    float: left;
+	line-height:30px;
+}
+.utility:hover {
+    background-color: #D0E2F3;
+    border-color: #57A5CA;
+    border-style: solid;
+}
+.deleteButton {
+    width: 20px;
+    height: 20px;
+    margin-top: -12px;
+    margin-right: -12px;
+    padding: 3px;
+    float: right;
+    background: url(../images/delete.png) no-repeat;
+    background-position: left center;
+    cursor: pointer;
+}
+.formOption {
+    display: inline-block;
+    width: 34px;
+    height: 30px;
+    float: right;
+    background: url(../images/formOption.png) no-repeat;
+    background-position: center -4px;
+}
+.formOption_checkbox{
+	background-position: center -38px;
+}
+.formOption_multiple{
+	background-position: center -73px;
+}
+.formOption_radio{
+	background-position: center -107px;
+}
+.formOption_dropDown{
+	background-position: center -142px;
+}
+.formOption_fileUpload{
+	background-position: center -178px;
+}
+.formOption_data{
+	background-position: center -247px;
+}
+.formOption_section{
+	background-position: center -212px;
+}
+.formOption_star{
+	background-position: center -284px;
+}
+.formOption_shopping{
+	background-position: center -319px;
+}
+.formOption_picture{
+    background-position: center -352px;
+}
+
+.formOption_number {
+    background-position: center -386px;
+}
+
+.formOption_pictureCheckbox{
+    background-position: center -423px;
+}
+
+.formOption_pictureRadio{
+    background-position: center -455px;
+}
+
+.formOption_page{
+    background-position: center -491px;
+}
+
+
+

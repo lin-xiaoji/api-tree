@@ -1,0 +1,49 @@
+{include file="../public/header.html"}
+<div class="header">
+  <div class="main">   </div>
+</div>
+<div class="main layui-clear">
+  <h2 class="page-title">登入</h2>
+  <div class="layui-form layui-form-pane">
+    <form method="post">
+      <div class="layui-form-item">
+        <label for="L_email" class="layui-form-label">邮箱</label>
+        <div class="layui-input-inline">
+          <input type="text" id="username" name="username" required lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label for="L_pass" class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+          <input type="password" id="password" name="password" required lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      
+      <div class="layui-form-item">
+        <button class="layui-btn" lay-filter="*" lay-submit>立即登录</button>
+         </div>
+      
+    </form>
+  </div>
+</div>
+<script>
+ 
+layui.use(['layer','form'], function(){
+	var $ = layui.jquery;
+	var layer = layui.layer;
+	var form = layui.form();
+	
+	form.on('submit(*)', function(data){
+		$.post('/login/login',data.field,function(data) {
+			if(data == 'ok') {
+				location.href = '/';
+			}else {
+				layer.msg(data);
+			}
+		});
+		return false;
+	});
+	
+});
+</script> 
+{include file="../public/footer.html"}

@@ -311,23 +311,7 @@
 
          var posX = node.level * 200;
          var posY = node.posY;
-         var borderWidth = 1;
-         if(node == tree.currentNode) {
-             borderWidth = 3;
-         }
-         //生成节点
-         //var newNode = document.createElementNS('http://www.w3.org/2000/svg','g');
-         //newNode.setAttribute('transform','translate( '+ posX +' '+ posY +' )');
-         //newNode.setAttribute('key',node.key);
-         //var innerHTML = '<path fill="rgb(238, 243, 246)" stroke="rgb(115, 161, 191)"\
-         //   d="M-17,-13h90a3,3,0,0,1,3,3v20a3,3,0,0,1,-3,3h-90a3,3,0,0,1,-3,-3v-20a3,3,0,0,1,3,-3z"\
-         //   stroke-width="'+ borderWidth +'"></path>\
-         //   <text dominant-baseline="text-before-edge" font-size="14" dy="0" x="-15" y="-7">'+ node.name +'</text>\
-         //   <path fill="black" stroke="none" style="cursor: pointer;" transform="translate( 52.5 -6.5 )"\
-         //   d="M9,9H3V8h6L9,9L9,9z M9,7H3V6h6V7z M9,5H3V4h6V5z M8.5,11H2V2h8v7.5 M9,12l2-2V1H1v11" ></path>\
-         //   ';
-         //newNode.innerHTML = innerHTML;
-         //nodeBox.appendChild(newNode);
+
 
          var nodeDiv = document.createElement('div');
          nodeDiv.setAttribute('key',node.key);
