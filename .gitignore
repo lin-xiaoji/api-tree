@@ -1,1 +1,3 @@
 .idea
+application/admin/config/database.php
+application/www/config/database.php

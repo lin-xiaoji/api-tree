@@ -9,6 +9,7 @@
 <body>
 <div id="root">
 	<div class="header">
+        <div id="file-name">ecmascript</div>
 		<div id="btn-login" class="header-item icon right" style="width:60px;">
 			<span class="button">登录</span>
 		</div>
@@ -23,10 +24,9 @@
 	</div>
 	
 	
-    <div class="file-list">
+    <div id="file-list" class="file-list">
         <ul>
-            <li><i class="iconfont">&#xe628;</i>ecmascript</li>
-            <li>dom</li>
+            加载中...
         </ul>
     </div>
 	
@@ -55,10 +55,16 @@
             <a id="overlayDivCloseBtn" class="close"></a>
             <div id="overlayDetailDiv" class="details">
                 <div class="apiDetail">
-                    <h2>reAsyncChildNodes</h2>
-                    <div class="desc">
+                    <div id="property-edit">编辑</div>
+                    <div id="property-preview" style="display: none;">预览</div>
+                    <h2 id="property-name">reAsyncChildNodes</h2>
+                    <div class="desc" id="property-desc">
 
                     </div>
+                    <div id="property-textarea" style="display: none;">
+                        <textarea></textarea>
+                    </div>
+                    <button id="property-save" style="display: none;">保存</button>
 
                 </div>
             </div>
@@ -70,90 +76,8 @@
 </html>
 <script src="asset/js/jquery.js"></script>
 <script src="asset/js/layer/layer.js"></script>
+<script src="asset/js/showdown.js"></script>
 <script src="tree.js"></script>
 <script src="main.js"></script>
-<script>
-    //读取数据接口  /api/files/read?id=1
-    var baseData = {
-        name:'object0',
-        property:[
-            {
-                name:'属性1',
-                content:'contentddewwdd'
-            },
-            {
-                name:'属性22221',
-                content:'conte22222ntddewwdd'
-            }
-        ],
-        key:'key-0',
-        posY:0,
-        sub:[
-            {
-                name:'event1',
-                property:[
-                    {
-                        name:'属性333331',
-                        content:'cont3333entddewwdd'
-                    },
-                    {
-                        name:'属性44441',
-                        content:'contentw4444ddewwdd'
-                    }
-                ],
-                propertyShow:false,
-                key:'key-1',
-                sub:[
-                    {
-                        name:'event2',
-                        property:[],
-                        key:'key-2',
-                        sub:[
-                            {
-                                name:'event3',
-                                property:[],
-                                key:'key-3',
-                            },
-                            {
-                                name:'element3',
-                                property:[],
-                                key:'key-4',
-                            }
-                        ]
-                    },
-                    {
-                        name:'element',
-                        property:[],
-                        key:'key-5',
-                    }
-                ]
-            },
-            {
-                name:'element',
-                property:[],
-                key:'key-6',
-            },
-            {
-                name:'element',
-                property:[],
-                key:'key-8',
-                sub:[
-                    {
-                        name:'event',
-                        property:[],
-                        key:'key-9',
-                    },
 
-                    {
-                        name:'element',
-                        property:[],
-                        key:'key-10',
-                    }
-                ]
-            }
-        ]
-    };
-    tree.init(baseData);
-    tree.render();
-</script>
 

@@ -168,8 +168,12 @@
          tree.currentPropertyIndex = $(this).index();
          var property = tree.currentNode.property[tree.currentPropertyIndex];
 
-         $(".apiDetail h2").html(property.name);
-         $(".desc").html(property.content);
+         $("#property-name").html(property.name);
+
+         var converter = new showdown.Converter();
+         var html = converter.makeHtml(property.content);
+         $("#property-desc").html(html);
+         $("#property-textarea textarea").val(property.content);
 
          $(".property ul li").removeClass('active');
          $(this).addClass('active');
@@ -193,26 +197,45 @@
 		 $("#overlayDiv").animate({'left':contentLeft,'top':contentTop});
          $("#overlayDiv").show();
      });
-
      $("#overlayDivCloseBtn").click(function () {
          $("#overlayDiv").hide();
      });
 
+
+
      //编辑属性
-     $(".property ul li").dblclick(function() {
-         layer.open({
-             area: ['500px', '300px']
-             ,title: false
-             ,shade: 0.6 //遮罩透明度
-             ,content: '<div style="padding:50px;"><input id="text-val" value="'+ $(this).text() +'"> <button id="edit-property">保存</button></div>'
-         });
-         $("#edit-property").click(function() {
-             tree.currentNode.property[tree.currentPropertyIndex] = $("#text-val").val();
-             tree.render(tree.baseData);
-             layer.closeAll();
-         });
-     });
      $(".property").bind('selectstart', function(){ return false; });
+
+     //编辑
+     $("#property-edit").click(function () {
+         $("#property-name").html('<input value="'+ $("#property-name").html() +'">');
+
+         $(this).hide();
+         $("#property-desc").hide();
+         $("#property-textarea").show();
+         $("#property-preview").show();
+         $("#property-save").show();
+     });
+     //预览
+     $("#property-preview").click(function () {
+         var converter = new showdown.Converter();
+         var html = converter.makeHtml($("#property-textarea textarea").val());
+         $("#property-name").html($("#property-name input").val());
+         $("#property-desc").html(html);
+
+         $(this).hide();
+         $("#property-desc").show();
+         $("#property-textarea").hide();
+         $("#property-edit").show();
+         $("#property-save").hide();
+     });
+     //保存
+     $("#property-save").click(function () {
+         tree.currentNode.property[tree.currentPropertyIndex].name = $("#property-name input").val();
+         tree.currentNode.property[tree.currentPropertyIndex].content = $("#property-textarea textarea").val();
+         tree.render(tree.baseData);
+         $("#btn-save").click();
+     });
 
 
 
