@@ -86,7 +86,6 @@
          document.onmouseup = function(e) {
              this.onmousemove = null;
              this.onmouseup = null;
-
          };
      };
 
@@ -165,6 +164,13 @@
      $(".property ul li").click(function() {
          var key = $(this).parent().parent().attr('key');
          tree.currentNode = tree.findNodeByKey(key);
+
+         //添加属性
+         if($(this).data('tag') == 'add') {
+             tree.currentNode.property.push({name:'11',content:'22'});
+         }
+
+
          tree.currentPropertyIndex = $(this).index();
          var property = tree.currentNode.property[tree.currentPropertyIndex];
 
@@ -177,6 +183,11 @@
 
          $(".property ul li").removeClass('active');
          $(this).addClass('active');
+
+         //添加属性
+         if($(this).data('tag') == 'add') {
+             $("#property-edit").click();
+         }
 		 
 		 //定位弹窗位置
 		 var top = $(this).offset().top;
@@ -203,10 +214,12 @@
 
 
 
-     //编辑属性
+
+     //防止文本选中
      $(".property").bind('selectstart', function(){ return false; });
 
-     //编辑
+
+     //编辑属性
      $("#property-edit").click(function () {
          $("#property-name").html('<input value="'+ $("#property-name").html() +'">');
 
@@ -237,25 +250,6 @@
          $("#btn-save").click();
      });
 
-
-
-
-     //添加属性
-     $(".add-property").click(function(){
-         var key = $(this).parent().parent().attr('key');
-         tree.currentNode = tree.findNodeByKey(key);
-         layer.open({
-             area: ['500px', '300px']
-             ,title: false
-             ,content: '<div style="padding:50px;"><input id="text-val" > <button id="add-property">添加</button></div>'
-         });
-
-         $("#add-property").click(function () {
-             tree.currentNode.property.push($("#text-val").val());
-             tree.render(tree.baseData);
-             layer.closeAll();
-         })
-     });
  };
 
 
@@ -361,12 +355,12 @@
          for(i=0; i<node.property.length; i++ ) {
              propertyHtml += '<li>'+ node.property[i].name +'</li>';
          }
-         propertyHtml += '<div class="add-property"> 添加属性 </div></ul>';
+         propertyHtml += '<li data-tag="add"> 添加属性 </li></ul>';
          var div = document.createElement('div');
          div.setAttribute('key',node.key);
          div.setAttribute('class','property');
-         div.style.left = (posX+160) + 'px';
-         div.style.top = (posY + 420) + 'px';
+         div.style.left = (posX + 160) + 'px';
+         div.style.top = (posY + 435) + 'px';
          if(node.propertyShow) {
              div.style.display = 'block';
          }

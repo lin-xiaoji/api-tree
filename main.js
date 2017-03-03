@@ -72,7 +72,10 @@ $(function () {
         });
     });
 
-    $("#btn-save").click(function () {
+
+
+    //保存数据
+    function saveData() {
         function delParent(data) {
             delete data.parent;
             if(data.sub) {
@@ -87,6 +90,33 @@ $(function () {
         $.post('/api/files/save',{id:1,content:content},function(data){
             alert(data);
         });
+    }
+    //ctrl+s保存
+    $("#btn-save").click(function () {
+        saveData();
+    });
+
+    //ctrl+s保存
+    $(document).keydown(function(e){
+        if( e.ctrlKey  == true && e.keyCode == 83 ){
+            saveData();
+            return false; // 截取返回false就不会保存网页了
+        }
+    });
+
+    //滚轮滚动
+    var $root = $("#tree");
+    $(document).on("mousewheel DOMMouseScroll", function (e) {
+        var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
+            (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
+
+        if (delta > 0) {
+            // 向上滚
+            $root.css('top',($root.position().top + 30) + 'px');
+        } else if (delta < 0) {
+            // 向下滚
+            $root.css('top',($root.position().top - 30) + 'px');
+        }
     });
 });
 
