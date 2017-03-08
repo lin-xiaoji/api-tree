@@ -1,6 +1,7 @@
 $(function () {
     //读取数据函数
     function readFile(id) {
+        window.fileId = id;
         $.get('/api/files/read',{id:id},function (data) {
             var info = JSON.parse(data).data;
             $("#file-name").html(info.name);
@@ -87,8 +88,13 @@ $(function () {
         delParent(tree.baseData);
 
         var content = JSON.stringify(tree.baseData);
-        $.post('/api/files/save',{id:1,content:content},function(data){
-            alert(data);
+        $.post('/api/files/save',{id:window.fileId,content:content},function(data){
+            data = JSON.parse(data);
+            if(data.code == 0) {
+                alert(data.msg);
+            } else {
+                alert('保存成功');
+            }
         });
     }
     //ctrl+s保存
@@ -104,8 +110,41 @@ $(function () {
         }
     });
 
+
+    //编辑属性
+    $("#property-edit").click(function () {
+        $("#property-name").html('<input value="'+ $("#property-name").html() +'">');
+
+        $(this).hide();
+        $("#property-desc").hide();
+        $("#property-textarea").show();
+        $("#property-preview").show();
+        $("#property-save").show();
+    });
+    //预览
+    $("#property-preview").click(function () {
+        var converter = new showdown.Converter();
+        var html = converter.makeHtml($("#property-textarea textarea").val());
+        $("#property-name").html($("#property-name input").val());
+        $("#property-desc").html(html);
+
+        $(this).hide();
+        $("#property-desc").show();
+        $("#property-textarea").hide();
+        $("#property-edit").show();
+        $("#property-save").hide();
+    });
+    //保存
+    $("#property-save").click(function () {
+        tree.currentNode.property[tree.currentPropertyIndex].name = $("#property-name input").val();
+        tree.currentNode.property[tree.currentPropertyIndex].content = $("#property-textarea textarea").val();
+        tree.render(tree.baseData);
+        $("#btn-save").click();
+    });
+
     //滚轮滚动
     var $root = $("#tree");
+    var $overlay = $("#overlayDiv");
     $(document).on("mousewheel DOMMouseScroll", function (e) {
         var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
             (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
@@ -113,9 +152,11 @@ $(function () {
         if (delta > 0) {
             // 向上滚
             $root.css('top',($root.position().top + 30) + 'px');
+            $overlay.css('top',($overlay.position().top + 30) + 'px');
         } else if (delta < 0) {
             // 向下滚
             $root.css('top',($root.position().top - 30) + 'px');
+            $overlay.css('top',($overlay.position().top - 30) + 'px');
         }
     });
 });

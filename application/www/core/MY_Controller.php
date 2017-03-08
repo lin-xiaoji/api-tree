@@ -3,8 +3,13 @@
  * 扩展CI的CI_Controller类
  */
 class MY_Controller extends CI_Controller {
-
-
+	protected $userId;
+	public function __construct()	{
+		parent::__construct();
+		if(isset($_SESSION['user_id'])) {
+			$this->userId = $_SESSION['user_id'];
+		}
+	}
 
 }
 
@@ -73,7 +78,7 @@ class Common extends MY_Controller {
 
 
 	function check_login() {
-		if(!$_SESSION['user_id']) {
+		if(!isset($_SESSION['user_id'])) {
 			$this->error('未登陆');
 		}
 	}

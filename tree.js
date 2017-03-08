@@ -131,7 +131,7 @@
      });
     //显示属性列表
      $(".node img").click(function() {
-         $(".property").hide();
+         //$(".property").hide();
          $(".property[key='"+$(this).parent().attr('key')+"']").toggle(function(){
              if ($(this).is(':hidden')) {
                  tree.currentNode.propertyShow = false;
@@ -218,38 +218,6 @@
      //防止文本选中
      $(".property").bind('selectstart', function(){ return false; });
 
-
-     //编辑属性
-     $("#property-edit").click(function () {
-         $("#property-name").html('<input value="'+ $("#property-name").html() +'">');
-
-         $(this).hide();
-         $("#property-desc").hide();
-         $("#property-textarea").show();
-         $("#property-preview").show();
-         $("#property-save").show();
-     });
-     //预览
-     $("#property-preview").click(function () {
-         var converter = new showdown.Converter();
-         var html = converter.makeHtml($("#property-textarea textarea").val());
-         $("#property-name").html($("#property-name input").val());
-         $("#property-desc").html(html);
-
-         $(this).hide();
-         $("#property-desc").show();
-         $("#property-textarea").hide();
-         $("#property-edit").show();
-         $("#property-save").hide();
-     });
-     //保存
-     $("#property-save").click(function () {
-         tree.currentNode.property[tree.currentPropertyIndex].name = $("#property-name input").val();
-         tree.currentNode.property[tree.currentPropertyIndex].content = $("#property-textarea textarea").val();
-         tree.render(tree.baseData);
-         $("#btn-save").click();
-     });
-
  };
 
 
@@ -264,6 +232,9 @@
  tree.render = function () {
      var level = 0;
      var levelArr = {};
+
+
+     //计算每个节点的高度
      function getNodeHeight(node,parentNode) {
          var height = 100;
          if(node.sub) {
@@ -291,6 +262,20 @@
 
 
 
+     //计算整个树的偏移位置
+     var totleHeight = tree.baseData.height;
+     $("#tree").height(totleHeight);
+     var transformX = 300;
+     var transformY = totleHeight/2;
+     $("#tree-root").attr('transform','translate( 300 '+ transformY +' )');
+
+
+     //计算整个树的初始显示位置
+     var treeTop = (totleHeight - $(window).height())/2;
+     $("#tree").css('top',-treeTop);
+
+
+     //计算每个节点的位置
      function getNodePos(tree) {
          for(var level in tree) {
              if(level>0) {
@@ -330,11 +315,12 @@
          var posY = node.posY;
 
 
+         //生成节点
          var nodeDiv = document.createElement('div');
          nodeDiv.setAttribute('key',node.key);
          nodeDiv.setAttribute('class','node');
-         nodeDiv.style.left = (posX + 145) + 'px';
-         nodeDiv.style.top = (posY + 375) + 'px';
+         nodeDiv.style.left = (posX + transformX - 10) + 'px';
+         nodeDiv.style.top = (posY + transformY - 25) + 'px';
          nodeDiv.innerHTML = node.name + ' <img src="asset/img/property.gif" />';
          nodes.appendChild(nodeDiv);
 
@@ -359,8 +345,8 @@
          var div = document.createElement('div');
          div.setAttribute('key',node.key);
          div.setAttribute('class','property');
-         div.style.left = (posX + 160) + 'px';
-         div.style.top = (posY + 435) + 'px';
+         div.style.left = (posX + transformX) + 'px';
+         div.style.top = (posY + transformY + 35) + 'px';
          if(node.propertyShow) {
              div.style.display = 'block';
          }
@@ -370,6 +356,7 @@
 
      }
      makeTree(tree.baseData);
+     console.log(tree.baseData);
      this.addListener();
  };
 

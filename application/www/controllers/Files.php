@@ -20,9 +20,16 @@ class Files extends Common {
 		$this->check_login();
 
 		$id = $this->post('id');
-		$content = $this->post('content');
+		$file = M("files")->find($id);
 
-		M("files")->save(['content'=>$content],['id'=>$id]);
+
+		if($file['userId'] == $this->userId) {
+			$content = $this->post('content');
+			M("files")->save(['content'=>$content],['id'=>$id]);
+		} else {
+			$this->error('无修改权限！');
+		}
+
 		$this->success();
 	}
 
