@@ -150,6 +150,7 @@
          layer.open({
              area: ['500px', '300px']
              ,title: false
+			 ,btn:false
              ,shade: 0.6 //遮罩透明度
              ,content: '<div style="padding:50px;"><input id="text-val" value="'+ text +'"> <button id="edit-node">保存</button></div>'
          });
@@ -177,11 +178,13 @@
          var property = tree.currentNode.property[tree.currentPropertyIndex];
 
          $("#property-name").html(property.name);
-
+		 $("#property-name-input").val(property.name);
+		 $("#property-textarea textarea").val(property.content);
+		 
          var converter = new showdown.Converter();
          var html = converter.makeHtml(property.content);
          $("#property-desc").html(html);
-         $("#property-textarea textarea").val(property.content);
+         
 
          $(".property ul li").removeClass('active');
          $(this).addClass('active');

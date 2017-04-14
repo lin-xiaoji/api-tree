@@ -22,7 +22,7 @@
         </a>-->
         <!--登录之后-->
         <div class="login" style="display:none">
-        <span class="portrait iconfont font_14">&#xe64c;</span><span class="font_14">徐攀</span>
+        <span class="portrait iconfont font_14">&#xe64c;</span><span class="font_14 account">account</span>
         </div>
         
         <span id="file-name" class="tc font_16">ecmascript</span>
@@ -35,6 +35,7 @@
         <ul>
             加载中...
         </ul>
+		<div class="add-file">添加文档</div>
     </div>
 	
 	
@@ -60,19 +61,22 @@
             <a id="overlayDivCloseBtn" class="close"></a>
             <div id="overlayDetailDiv" class="details">
                 <div class="apiDetail">
-                <div class="biaoti">
-                    <div id="property-edit">编辑</div>
-                    <div id="property-preview" style="display: none;">预览</div>
-                    <h2 id="property-name">reAsyncChildNodes</h2>
-                    </div>
+					<div class="biaoti">
+						<div id="property-edit">编辑</div>
+						<h2 id="property-name"></h2>
+					</div>
                     <div class="desc" id="property-desc">
-
                     </div>
-                    <div id="property-textarea" style="display: none;">
+                </div>
+				<div class="apiDetail" style="display:none;">
+					<div class="biaoti">
+						<div id="property-preview">预览</div>
+						<h2><input id="property-name-input" value="" /></h2>
+					</div>
+                    <div id="property-textarea">
                         <textarea class="input_z"></textarea>
                     </div>
-                    <button id="property-save" style="display: none;">保存</button>
-
+                    <button id="property-save">保存</button>
                 </div>
             </div>
         </div>

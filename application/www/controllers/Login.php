@@ -10,7 +10,8 @@ class Login extends Common {
 		$item = M("user")->getOne(['username'=>$username,'password'=>$password]);
 		if($item) {
 			$_SESSION['user_id'] = $item['id'];
-			$this->success();
+			$_SESSION['username'] = $item['username'];
+			$this->success($username);
 		} else {
 			$this->error('帐号或密码错误');
 		}
@@ -24,11 +25,13 @@ class Login extends Common {
 		if ($exist) {
 			$this->error('帐号已存在');
 		} else {
-			M("user")->add([
+			$id = M("user")->add([
 				'username'=>$username,
 				'password'=>$password,
 			]);
-			$this->success();
+			$_SESSION['user_id'] = $id;
+			$_SESSION['username'] = $username;
+			$this->success($username);
 		}
 
 	}

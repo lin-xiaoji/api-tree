@@ -1,7 +1,35 @@
 $(function () {
-    //读取数据函数
-    function readFile(id) {
-        window.fileId = id;
+
+    
+    $.get('/api/files',function (data) {
+        data = JSON.parse(data);
+		//登陆状态
+		var username = data.data.username;
+		if(username) {
+			$(".account").html(username);
+			$(".login").show();
+			$("#btn-login").hide();
+		}
+		
+		//读取文件列表
+        var files = data.data.files;
+        $("#file-list ul").html('');
+        files.map(function (item) {
+            $("#file-list ul").append('<li data-id="'+ item.id +'"><a><i class="iconfont">&#xe612;</i>'+ item.name +'</a></li>');
+        });
+        $("#file-list ul li:eq(0)").click();
+    });
+	
+	
+
+    //点击显示某个文件
+    $("#file-list ul").on('click','li',function () {
+		$("#file-list ul li a").removeClass("special");								 
+		$(this).find("a").addClass("special");
+		
+		
+		//读取数据
+		window.fileId = id = $(this).data('id');
         $.get('/api/files/read',{id:id},function (data) {
             var info = JSON.parse(data).data;
             $("#file-name").html(info.name);
@@ -10,33 +38,34 @@ $(function () {
             tree.init(treeData);
             tree.render();
         });
-    }
-
-
-    //读取文件列表
-    $.get('/api/files',function (data) {
-        data = JSON.parse(data);
-        var files = data.data;
-        $("#file-list ul").html('');
-        files.map(function (item) {
-            $("#file-list ul").append('<li data-id="'+ item.id +'"><a><i class="iconfont">&#xe612;</i>'+ item.name +'</a></li>');
-        });
-        readFile(files[0].id);
-    });
-
-    //点击显示某个文件
-    $("#file-list ul").on('click','li',function () {
-        readFile($(this).data('id'));
     });
 
 
 
+	//添加文档
+	$(".add-file").click(function() {
+		layer.open({
+             area: ['500px', '300px']
+             ,title: false
+			 ,btn:false
+             ,shade: 0.6 //遮罩透明度
+             ,content: '<div style="padding:50px;"><input id="text-val" > <button id="edit-file">保存</button></div>'
+         });
+	});
 
 
 
-
-
-
+	//登陆注册
+	function loginOk(data) {
+		if(data.code == 1) {
+			$(".account").html(data.data);
+			$(".login").show();
+			$("#btn-login").hide();
+			layer.closeAll();
+		} else {
+			alert(data.msg);
+		}
+	}
     $("#btn-login").click(function () {
         layer.open({
             area: ['500px', '300px']
@@ -51,8 +80,8 @@ $(function () {
 
         $("#login").click(function () {
             $.post('/api/login',{username:$("#username").val(),password:$("#password").val()},function(data){
-                alert(data);
-            });
+                loginOk(data);
+            },'json');
         });
     });
 
@@ -69,10 +98,12 @@ $(function () {
 
         $("#login").click(function () {
             $.post('/api/login/reg',{username:$("#username").val(),password:$("#password").val()},function(data){
-                alert(data);
-            });
+                loginOk(data);
+            },'json');
         });
     });
+
+
 
 
 
@@ -114,26 +145,18 @@ $(function () {
 
     //编辑属性
     $("#property-edit").click(function () {
-        $("#property-name").html('<input value="'+ $("#property-name").html() +'">');
-
-        $(this).hide();
-        $("#property-desc").hide();
-        $("#property-textarea").show();
-        $("#property-preview").show();
-        $("#property-save").show();
+        $(".apiDetail:eq(0)").hide();
+		$(".apiDetail:eq(1)").show();
     });
     //预览
     $("#property-preview").click(function () {
         var converter = new showdown.Converter();
         var html = converter.makeHtml($("#property-textarea textarea").val());
-        $("#property-name").html($("#property-name input").val());
+        $("#property-name").html($("#property-name-input").val());
         $("#property-desc").html(html);
 
-        $(this).hide();
-        $("#property-desc").show();
-        $("#property-textarea").hide();
-        $("#property-edit").show();
-        $("#property-save").hide();
+        $(".apiDetail:eq(0)").show();
+		$(".apiDetail:eq(1)").hide();
     });
     //保存
     $("#property-save").click(function () {

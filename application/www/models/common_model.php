@@ -70,7 +70,6 @@ class Common_model extends CI_Model {
 
     //添加新数据
     function add($data){
-
         $this->db->insert($this->table,$data);
         return $this->db->insert_id();
     }
