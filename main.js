@@ -19,7 +19,7 @@ $(function () {
         var files = data.data;
         $("#file-list ul").html('');
         files.map(function (item) {
-            $("#file-list ul").append('<li data-id="'+ item.id +'"><i class="iconfont">&#xe628;</i>'+ item.name +'</li>');
+            $("#file-list ul").append('<li data-id="'+ item.id +'"><a><i class="iconfont">&#xe612;</i>'+ item.name +'</a></li>');
         });
         readFile(files[0].id);
     });
@@ -41,9 +41,10 @@ $(function () {
         layer.open({
             area: ['500px', '300px']
             ,title: false
+			,btn:false
             ,content: '<div style="padding:50px;">' +
-            '<input id="username" ><br>' +
-            '<input id="password" type="password" > <br>' +
+            '<div class="login"><span>用户名:</span><input id="username" class="input_l" ></div>' +
+            '<div class="login"><span>密 码：</span><input id="password" type="password" class="input_l"></div>' +
             '<button id="login">登陆</button>' +
             '</div>'
         });

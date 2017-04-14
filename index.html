@@ -9,18 +9,25 @@
 <body>
 <div id="root">
 	<div class="header">
-        <div id="file-name">ecmascript</div>
-		<div id="btn-login" class="header-item icon right" style="width:60px;">
-			<span class="button">登录</span>
-		</div>
-
-        <div id="btn-reg" class="header-item icon right" style="width:60px;">
-            <span class="button">注册</span>
+     <a id="btn-save" class="fr mr_20 btn" >
+           保存
+        </a>
+        
+        <!--登录之前-->
+    <a id="btn-login" class="header-item tc fl ml_10" >
+			<span class="iconfont font_14" style="margin-right:2px; margin-top:4px">&#xe678;</span>登录
+		</a>
+       <!-- <a id="btn-reg" class="header-item tc fl ml_10">
+            <span class="iconfont font_14">&#xe637;</span>注册
+        </a>-->
+        <!--登录之后-->
+        <div class="login" style="display:none">
+        <span class="portrait iconfont font_14">&#xe64c;</span><span class="font_14">徐攀</span>
         </div>
+        
+        <span id="file-name" class="tc font_16">ecmascript</span>
 
-        <div id="btn-save" class="header-item icon right" style="width:60px;">
-            <span class="button">保存</span>
-        </div>
+       
 	</div>
 	
 	
@@ -31,7 +38,7 @@
     </div>
 	
 	
-    <div id="tree">
+    <div id="tree" style="height: 12000px;">
         <div id="properties">
 
         </div>
@@ -39,7 +46,7 @@
 
         </div>
         <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" id="svg-box">
-            <g id="tree-root" transform="translate( 300 600 )">
+            <g id="tree-root" transform="translate( 300 6000 )">
                 <g id="lines">
 
                 </g>
@@ -53,14 +60,16 @@
             <a id="overlayDivCloseBtn" class="close"></a>
             <div id="overlayDetailDiv" class="details">
                 <div class="apiDetail">
+                <div class="biaoti">
                     <div id="property-edit">编辑</div>
                     <div id="property-preview" style="display: none;">预览</div>
                     <h2 id="property-name">reAsyncChildNodes</h2>
+                    </div>
                     <div class="desc" id="property-desc">
 
                     </div>
                     <div id="property-textarea" style="display: none;">
-                        <textarea></textarea>
+                        <textarea class="input_z"></textarea>
                     </div>
                     <button id="property-save" style="display: none;">保存</button>
 

@@ -1,5 +1,3 @@
-
-
  var tree = {};
  tree.baseData = null;
  tree.currentNode = null;
@@ -89,6 +87,10 @@
          };
      };
 
+     //计算整个树的初始显示位置
+     var treeTop = (12000 - $(window).height())/2;
+     $("#tree").css('top',- treeTop);
+
  };
 
 
@@ -125,8 +127,8 @@
              return false;
          }
          tree.currentKey = key;
-         $(".node").css("border",'solid 1px rgb(115, 161, 191)');
-         $(this).css("border",'solid 3px rgb(115, 161, 191)');
+         $(".node").css("border",'solid 1px rgb(41, 189, 139)');
+         $(this).css("border",'solid 2px rgb(41, 189, 139)');
          tree.currentNode = tree.findNodeByKey(key);
      });
     //显示属性列表
@@ -262,17 +264,11 @@
 
 
 
-     //计算整个树的偏移位置
-     var totleHeight = tree.baseData.height;
-     $("#tree").height(totleHeight);
+     //整个树的偏移位置
      var transformX = 300;
-     var transformY = totleHeight/2;
-     $("#tree-root").attr('transform','translate( 300 '+ transformY +' )');
+     var transformY = 6000;
 
 
-     //计算整个树的初始显示位置
-     var treeTop = (totleHeight - $(window).height())/2;
-     $("#tree").css('top',-treeTop);
 
 
      //计算每个节点的位置
@@ -321,7 +317,7 @@
          nodeDiv.setAttribute('class','node');
          nodeDiv.style.left = (posX + transformX - 10) + 'px';
          nodeDiv.style.top = (posY + transformY - 25) + 'px';
-         nodeDiv.innerHTML = node.name + ' <img src="asset/img/property.gif" />';
+         nodeDiv.innerHTML = node.name + ' <img src="asset/img/img_03.png" />';
          nodes.appendChild(nodeDiv);
 
          //生成连接线
@@ -329,7 +325,7 @@
          if(node.parent) {
              parentY = node.parent.posY;
              var newLine = document.createElementNS('http://www.w3.org/2000/svg','path');
-             newLine.setAttribute('stroke','#2eb5e5');
+             newLine.setAttribute('stroke','#29bd8b');
 			 newLine.setAttribute('stroke-width','2');
              newLine.setAttribute('fill','none');
              newLine.setAttribute('d','M'+ posX +' '+ posY +' L'+ (posX-50) +' '+ posY +' L'+ (posX-50) +' '+ parentY +' L'+ (posX-200) +' '+ parentY +'');
@@ -339,9 +335,9 @@
          //生成属性列表
          var propertyHtml = '<ul>';
          for(i=0; i<node.property.length; i++ ) {
-             propertyHtml += '<li>'+ node.property[i].name +'</li>';
+             propertyHtml += '<li><a><span class="img_1"></span>'+ node.property[i].name +'</a></li>';
          }
-         propertyHtml += '<li data-tag="add"> 添加属性 </li></ul>';
+         propertyHtml += '<li data-tag="add"> <a class="add">添加属性</a> </li></ul>';
          var div = document.createElement('div');
          div.setAttribute('key',node.key);
          div.setAttribute('class','property');
