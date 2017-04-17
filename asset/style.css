@@ -222,19 +222,18 @@ button {vertical-align:middle;border:0 none;background: transparent no-repeat 0 
 .apiDetail .topLine {border-top: 1px dashed #376B29;margin-top: 5px;padding-top: 5px;}
 .apiDetail .highlight_red {color:#A60000;}
 .apiDetail .highlight_green {color:#A7F43D;}
-.apiDetail h1, .apiDetail h2, .apiDetail h3, .apiDetail h4, .apiDetail h5, .apiDetail h6 {color: white;padding: 0;}
 .apiDetail h2 {color: #29bd8b;margin: 5px auto;padding: 5px;font-size: 20px; display:inline-block}
 .apiDetail h2 input{ width:350px; height:34px; line-height:34px; text-indent:4px; color:#282c37; font-size:16px; border:1px solid #c4c7c9; background:#f6f6f6; border-radius:3px;font-family:font-family: "Microsoft YaHei",SimSun,'\5b8b\4f53',sans-serif;}
 .apiDetail h2 span {font-size: 14px;float: right;font-weight: normal;margin: 2px 20px 0 0;vertical-align: bottom;}
 .apiDetail h2 span.path {float: left;margin: 2px 0 0 0;vertical-align: bottom;}
-.apiDetail h3 {margin: 5px auto;padding: 5px;font-size: 14px;font-weight: normal;}
+.apiDetail h3 {margin: 5px auto;padding: 5px;}
 .apiDetail h3 span.h3_info {margin-left: 20px;font-size: 12px;}
 .apiDetail h4 {margin: 0 auto;padding: 0 5px;font-size: 12px;font-weight: normal;line-height: 16px;}
 .apiDetail .desc h4 {color: black;}
 .apiDetail h4 b{width: 150px;display:inline-block;}
 .apiDetail h4 span{width: 230px;display:inline-block;}
 
-.apiDetail pre, .apiDetail .desc {background: #f0f4f7;color: black;margin: 10px auto;padding: 10px;display: block; word-break:break-all; line-height:24px; color:#63666d}
+.apiDetail pre, .apiDetail .desc {margin: 10px auto;padding: 10px;display: block; word-break:break-all; line-height:24px; color:#63666d}
 .apiDetail pre {word-wrap: break-word;}
 .apiDetail p{margin-left: 5px;padding:0;}
 .apiDetail .longdesc {margin-top: 5px;}

@@ -93,6 +93,16 @@ class Files extends Common {
 		}
 	}
 
+	function saveProperty() {
+		$property = $this->post();
+		if($property['id']) {
+			M("property")->save($property,['id'=>$property['id']]);
+		} else {
+			M("property")->add($property);
+		}
+		$this->success();
+	}
+
 
 
 

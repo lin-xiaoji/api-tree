@@ -1,4 +1,9 @@
  var tree = {};
+
+ //整个树的偏移位置
+ tree.transformX = 300;
+ tree.transformY = 6000;
+
  tree.baseData = null;
  tree.currentNode = null;
  tree.currentPropertyIndex = null;
@@ -8,8 +13,8 @@
      tree.currentNode = baseData;
 
      window.onkeyup = function(e) {
-         //添加子节点
-         if(e.keyCode == 13 ) {
+         //添加子节点 +号
+         if(e.keyCode == 189 ) {
              var newObject = {
                  name:'new-element',
                  property:[],
@@ -34,8 +39,8 @@
              tree.render(tree.baseData);
          }
 
-         //删除节点
-         if(e.keyCode == 46 && e.shiftKey == false) {
+         //删除节点 - 号
+         if(e.keyCode == 189) {
              var arr = tree.currentNode.parent.sub;
              for(var i=0; i < arr.length; i++) {
                  if(arr[i] == tree.currentNode) {
@@ -46,7 +51,7 @@
          }
 
          //删除属性
-         if(e.keyCode == 46 && e.shiftKey == true) {
+         if(e.keyCode == 46) {
              tree.currentNode.property.splice(tree.currentPropertyIndex,1);
              tree.render(tree.baseData);
          }
@@ -63,6 +68,9 @@
      var root =document.getElementById('tree');
      var overlay =document.getElementById('overlayDiv');
      overlay.onmousedown = root.onmousedown = function(e) {
+         if(e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') {
+             return ;
+         }
          var treeX = e.clientX - root.getBoundingClientRect().left;
          var treeY = e.clientY - root.getBoundingClientRect().top;
          var overlayX = e.clientX - overlay.getBoundingClientRect().left;
@@ -121,7 +129,7 @@
 
 
      //选择节点
-     $(".node").click(function(){
+     $(".node").unbind('click').click(function(){
          var key = $(this).attr("key");
          if(tree.currentKey == key) {
              return false;
@@ -132,7 +140,7 @@
          tree.currentNode = tree.findNodeByKey(key);
      });
     //显示属性列表
-     $(".node img").click(function() {
+     $(".node img").unbind('click').click(function() {
          //$(".property").hide();
          $(".property[key='"+$(this).parent().attr('key')+"']").toggle(function(){
              if ($(this).is(':hidden')) {
@@ -145,7 +153,7 @@
      });
 
      //编辑节点
-     $(".node").dblclick(function(){
+     $(".node").unbind('dblclick').dblclick(function(){
          var text = $(this).text();
          layer.open({
              area: ['500px', '300px']
@@ -164,13 +172,13 @@
 
 
      //选择属性
-     $(".property ul li").click(function() {
+     $(".property ul li").unbind('click').click(function() {
          var key = $(this).parent().parent().attr('key');
          tree.currentNode = tree.findNodeByKey(key);
 
          //添加属性
          if($(this).data('tag') == 'add') {
-             tree.currentNode.property.push({name:'11',content:'22'});
+             tree.currentNode.property.push({name:'',content:''});
          }
 
 
@@ -267,9 +275,7 @@
 
 
 
-     //整个树的偏移位置
-     var transformX = 300;
-     var transformY = 6000;
+
 
 
 
@@ -299,10 +305,9 @@
 
      var nodes = document.getElementById('nodes');
      var lines = document.getElementById('lines');
-     var properties = document.getElementById('properties');
      nodes.innerHTML = '';
      lines.innerHTML = '';
-     properties.innerHTML = '';
+     $("#properties").html('');
      function makeTree (node) {
          if(node.sub) {
              for(var i=0; i<node.sub.length; i++ ) {
@@ -318,8 +323,8 @@
          var nodeDiv = document.createElement('div');
          nodeDiv.setAttribute('key',node.key);
          nodeDiv.setAttribute('class','node');
-         nodeDiv.style.left = (posX + transformX - 10) + 'px';
-         nodeDiv.style.top = (posY + transformY - 25) + 'px';
+         nodeDiv.style.left = (posX + tree.transformX - 10) + 'px';
+         nodeDiv.style.top = (posY + tree.transformY - 25) + 'px';
          nodeDiv.innerHTML = node.name + ' <img src="asset/img/img_03.png" />';
          nodes.appendChild(nodeDiv);
 
@@ -336,27 +341,37 @@
          }
 
          //生成属性列表
-         var propertyHtml = '<ul>';
-         for(i=0; i<node.property.length; i++ ) {
-             propertyHtml += '<li><a><span class="img_1"></span>'+ node.property[i].name +'</a></li>';
-         }
-         propertyHtml += '<li data-tag="add"> <a class="add">添加属性</a> </li></ul>';
-         var div = document.createElement('div');
-         div.setAttribute('key',node.key);
-         div.setAttribute('class','property');
-         div.style.left = (posX + transformX) + 'px';
-         div.style.top = (posY + transformY + 35) + 'px';
-         if(node.propertyShow) {
-             div.style.display = 'block';
-         }
-         div.innerHTML = propertyHtml;
-
-         properties.appendChild(div);
-
+         tree.renderProperty(node);
      }
      makeTree(tree.baseData);
-     console.log(tree.baseData);
-     this.addListener();
+     tree.addListener();
+ };
+
+ tree.renderProperty = function(node) {
+     var div;
+     if($('#property-list-'+node.id+'').length>0) {
+         div = $('#property-list-'+node.id+'');
+     } else {
+         div = $('<div key="'+node.key+'" class="property" id="property-list-'+node.id+'"></div>');
+     }
+
+     var posX = node.level * 200;
+     var posY = node.posY;
+
+     var propertyHtml = '<ul>';
+     for(i=0; i<node.property.length; i++ ) {
+         propertyHtml += '<li><a><span class="img_1"></span>'+ node.property[i].name +'</a></li>';
+     }
+     propertyHtml += '<li data-tag="add"> <a class="add">添加属性</a> </li></ul>';
+
+     div.css('left', (posX + tree.transformX) + 'px');
+     div.css('top', (posY + tree.transformY + 35) + 'px');
+     if(node.propertyShow) {
+         div.show();
+     }
+     div.html(propertyHtml);
+
+     $("#properties").append(div);
  };
 
 

@@ -160,10 +160,20 @@ $(function () {
     });
     //保存
     $("#property-save").click(function () {
-        tree.currentNode.property[tree.currentPropertyIndex].name = $("#property-name input").val();
+        tree.currentNode.property[tree.currentPropertyIndex].node_id = tree.currentNode.id;
+        tree.currentNode.property[tree.currentPropertyIndex].name = $("#property-name-input").val();
         tree.currentNode.property[tree.currentPropertyIndex].content = $("#property-textarea textarea").val();
-        tree.render(tree.baseData);
-        $("#btn-save").click();
+
+        $.post('/api/files/saveProperty', tree.currentNode.property[tree.currentPropertyIndex],function(data){
+            data = JSON.parse(data);
+            if(data.code == 0) {
+                alert(data.msg);
+            } else {
+                tree.renderProperty(tree.currentNode);
+                tree.addListener();
+                $("#property-preview").click();
+            }
+        });
     });
 
     //滚轮滚动
