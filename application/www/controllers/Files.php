@@ -74,18 +74,6 @@ class Files extends Common {
 			$data->id = M("node")->add($node);
 		}
 
-		//保存属性
-		foreach ($data->property as $item) {
-			$property['node_id'] = $data->id;
-			$property['name'] = $item->name;
-			$property['content'] = $item->content;
-			if($item->id) {
-				M("property")->save($property,['id'=>$item->id]);
-			} else {
-				M("property")->add($property);
-			}
-		}
-
 		//保存子节点
 		foreach ($data->sub as $item) {
 			$item->parent_id = $data->id;
@@ -94,13 +82,14 @@ class Files extends Common {
 	}
 
 	function saveProperty() {
+		$this->check_login();
 		$property = $this->post();
 		if($property['id']) {
 			M("property")->save($property,['id'=>$property['id']]);
 		} else {
-			M("property")->add($property);
+			$property['id'] = M("property")->add($property);
 		}
-		$this->success();
+		$this->success($property);
 	}
 
 

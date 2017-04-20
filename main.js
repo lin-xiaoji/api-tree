@@ -1,5 +1,8 @@
 $(function () {
-
+    //高度自适应
+    $(window).on('resize', function() {
+        $("#root").height($(this).height());
+    }).resize();
     
     $.get('/api/files',function (data) {
         data = JSON.parse(data);
@@ -17,28 +20,36 @@ $(function () {
         files.map(function (item) {
             $("#file-list ul").append('<li data-id="'+ item.id +'"><a><i class="iconfont">&#xe612;</i>'+ item.name +'</a></li>');
         });
-        $("#file-list ul li:eq(0)").click();
+        var fileId = location.hash.substr(1);
+        getTree(fileId)
     });
 	
 	
 
     //点击显示某个文件
     $("#file-list ul").on('click','li',function () {
-		$("#file-list ul li a").removeClass("special");								 
-		$(this).find("a").addClass("special");
-		
-		
+        window.fileId = $(this).data('id');
+        location.hash = '#'+ fileId;
+
+        $("#file-name").html('加载中...');
+        $("#tree").hide();
 		//读取数据
-		window.fileId = id = $(this).data('id');
-        $.get('/api/files/read',{id:id},function (data) {
+        getTree(fileId);
+    });
+
+    function getTree(fileId) {
+        $("#file-list ul li a").removeClass("special");
+        $("#file-list ul li[data-id="+fileId+"]").find("a").addClass("special");
+        $.get('/api/files/read',{id:fileId},function (data) {
             var info = JSON.parse(data).data;
             $("#file-name").html(info.name);
             var treeData = JSON.parse(info.content);
 
             tree.init(treeData);
             tree.render();
+            $("#tree").show();
         });
-    });
+    }
 
 
 
@@ -137,7 +148,7 @@ $(function () {
     //ctrl+s保存
     $(document).keydown(function(e){
         if( e.ctrlKey  == true && e.keyCode == 83 ){
-            saveData();
+            //saveData();
             return false; // 截取返回false就不会保存网页了
         }
     });
@@ -169,6 +180,8 @@ $(function () {
             if(data.code == 0) {
                 alert(data.msg);
             } else {
+                console.log(data);
+                tree.currentNode.property[tree.currentPropertyIndex].id = data.data.id;
                 tree.renderProperty(tree.currentNode);
                 tree.addListener();
                 $("#property-preview").click();

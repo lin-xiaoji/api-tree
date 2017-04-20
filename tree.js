@@ -13,8 +13,8 @@
      tree.currentNode = baseData;
 
      window.onkeyup = function(e) {
-         //添加子节点 +号
-         if(e.keyCode == 189 ) {
+         //添加子节点 F1
+         if(e.keyCode == 112 ) {
              var newObject = {
                  name:'new-element',
                  property:[],
@@ -39,8 +39,8 @@
              tree.render(tree.baseData);
          }
 
-         //删除节点 - 号
-         if(e.keyCode == 189) {
+         //删除节点 F2
+         if(e.keyCode == 113) {
              var arr = tree.currentNode.parent.sub;
              for(var i=0; i < arr.length; i++) {
                  if(arr[i] == tree.currentNode) {
@@ -58,10 +58,7 @@
 
      };
 
-     //高度自适应
-     $(window).on('resize', function() {
-         $("#root").height($(this).height());
-     }).resize();
+
 
 
      //拖拽
@@ -141,13 +138,14 @@
      });
     //显示属性列表
      $(".node img").unbind('click').click(function() {
-         //$(".property").hide();
+         if($(".property[key='"+$(this).parent().attr('key')+"']").is(":hidden")) {
+             $(".property").hide();
+         }
          $(".property[key='"+$(this).parent().attr('key')+"']").toggle(function(){
              if ($(this).is(':hidden')) {
                  tree.currentNode.propertyShow = false;
              } else {
                  tree.currentNode.propertyShow = true;
-
              }
          });
      });
