@@ -132,12 +132,16 @@
              return false;
          }
          tree.currentKey = key;
-         $(".node").css("border",'solid 1px rgb(41, 189, 139)');
-         $(this).css("border",'solid 2px rgb(41, 189, 139)');
+         $(".node").css("border",'solid 1px #bbbbbb');
+         $(this).css("border",'solid 2px #395060');
+         $(this).css("background",'#eef3f6');
          tree.currentNode = tree.findNodeByKey(key);
      });
     //显示属性列表
      $(".node img").unbind('click').click(function() {
+         $("#overlayDiv").hide();//隐藏详情窗口
+
+         //判断当前节点是否隐藏，如果隐藏就显示当前节点，其它节点属性则隐藏
          if($(".property[key='"+$(this).parent().attr('key')+"']").is(":hidden")) {
              $(".property").hide();
          }
@@ -323,7 +327,7 @@
          nodeDiv.setAttribute('class','node');
          nodeDiv.style.left = (posX + tree.transformX - 10) + 'px';
          nodeDiv.style.top = (posY + tree.transformY - 25) + 'px';
-         nodeDiv.innerHTML = node.name + ' <img src="asset/img/img_03.png" />';
+         nodeDiv.innerHTML = node.name + ' <img src="asset/img/property.gif" />';
          nodes.appendChild(nodeDiv);
 
          //生成连接线
@@ -331,7 +335,7 @@
          if(node.parent) {
              parentY = node.parent.posY;
              var newLine = document.createElementNS('http://www.w3.org/2000/svg','path');
-             newLine.setAttribute('stroke','#29bd8b');
+             newLine.setAttribute('stroke','#73a1bf');
 			 newLine.setAttribute('stroke-width','2');
              newLine.setAttribute('fill','none');
              newLine.setAttribute('d','M'+ posX +' '+ posY +' L'+ (posX-50) +' '+ posY +' L'+ (posX-50) +' '+ parentY +' L'+ (posX-200) +' '+ parentY +'');

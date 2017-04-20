@@ -21,6 +21,7 @@ $(function () {
             $("#file-list ul").append('<li data-id="'+ item.id +'"><a><i class="iconfont">&#xe612;</i>'+ item.name +'</a></li>');
         });
         var fileId = location.hash.substr(1);
+        if(!fileId) fileId = 1;
         getTree(fileId)
     });
 	
@@ -33,6 +34,7 @@ $(function () {
 
         $("#file-name").html('加载中...');
         $("#tree").hide();
+        $("#overlayDiv").hide();
 		//读取数据
         getTree(fileId);
     });

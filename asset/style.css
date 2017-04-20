@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 /*公共开始*/
-body{ font-family:tahoma,arial,"Hiragino Sans GB",\5b8b\4f53; font-size:12px; background:#f5f9fc}
+body{ font-family:tahoma,arial,"Hiragino Sans GB",\5b8b\4f53; font-size:12px;}
 *{ margin:0; padding:0}
 p{text-align:justify; text-justify:inter-ideograph;}
 ul, li{ list-style:none}
@@ -97,7 +97,7 @@ img{ border:none}
 	top: 0px;
 	z-index: 99;
 	box-shadow: rgba(200, 200, 200, 0.14902) 0px 3px 2px -2px;
-	background: #282c37;
+	background: #393f4f;
 	border-bottom: 1px solid rgb(229, 229, 229); color:#fff; text-align:center
 }
 .header-item{ width:60px; height:44px; display:inline-block; vertical-align:middle; cursor:pointer; color:#858491; font-size:14px}
@@ -113,21 +113,20 @@ img{ border:none}
 .file-list {
     border-right:1px solid rgb(229, 229, 229);
     top: 44px;
-    width: 180px;
+    width: 182px;
     position: absolute;
     height:100%;
-    background-color: #282c37;
+    background-color: #f8f8f8;
 	z-index: 99; color:#fff
 }
 .file-list ul li {
-     height: 60px;
-     line-height: 60px;
-	 border-bottom:1px solid #3d424e; cursor:pointer; color:#798491; text-align:center
+     height: 50px;
+     line-height: 50px;cursor:pointer; color:#798491; text-align:center
  }
-.file-list ul li a{ width:160px; height:60px; padding-left:20px; text-align:left; display:block}
+.file-list ul li a{ width:160px; height:50px; padding-left:20px; text-align:left; color:#337ab7; display:block; font-size: 14px;}
 .file-list ul li a i{ margin-right:5px;}
-.file-list ul li a:hover, .special{ width:160px; height:60px; background:#29bd8b; color:#fff; display:block}
-
+.special{ background:#eeeeee; color:#23527c; border-left: 3px #23527c solid;}
+.file-list ul li a:hover{ background:#eeeeee; color:#23527c; }
 #tree {
 	height: 1800px;
 	width: 100%;
@@ -137,20 +136,22 @@ img{ border:none}
 }
 .node {
 	position: absolute;
-    border: 1px solid #c4c7c9;
+    border: 1px solid #bbbbbb;
 	padding: 10px 10px 9px !important;
+	font-size: 17px;
+	font-family: 微软雅黑;
     border-radius: 4px;
     color: #282c37;
 	height: 30px;
 	line-height: 30px;
 	padding: 3px;
-	background: #eee;
+	background: #fff;
 	cursor: default;
 	font-size: 16px
 
 }
 .node img {
-	cursor: pointer; vertical-align:middle
+	cursor: pointer; vertical-align:middle; padding-left: 5px;
 }
 #properties {position: relative;}
 .property {
@@ -162,7 +163,7 @@ img{ border:none}
 	font-size: 12px;
 	line-height: 30px;
 	box-shadow: 1px 1px 4px rgba(0,0,0,.3);
-	background: #f0f4f7;
+	background: #fff;
 	border-radius: 4px;
 	display: none;
 	border:1px solid #d3d9dd;
