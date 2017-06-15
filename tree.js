@@ -13,10 +13,13 @@
      tree.currentNode = baseData;
 
      window.onkeyup = function(e) {
-         //添加子节点 F1
-         if(e.keyCode == 112 ) {
+         if(e.target.tagName == 'INPUT' || e.target.tagName == 'TEXTAREA') {
+             return ;
+         }
+         //添加子节点 enter
+         if(e.keyCode == 13 ) {
              var newObject = {
-                 name:'new-element',
+                 name:'新节点',
                  property:[],
                  key:'key-' + Math.random()
              };
@@ -35,12 +38,12 @@
                  tree.currentNode.sub.push(newObject);
              }
              tree.currentNode = newObject;
-
              tree.render(tree.baseData);
+             $(".current-node").dblclick();
          }
 
-         //删除节点 F2
-         if(e.keyCode == 113) {
+         //删除节点 del
+         if(e.keyCode == 46) {
              var arr = tree.currentNode.parent.sub;
              for(var i=0; i < arr.length; i++) {
                  if(arr[i] == tree.currentNode) {
@@ -50,8 +53,8 @@
              tree.render(tree.baseData);
          }
 
-         //删除属性
-         if(e.keyCode == 46) {
+         //删除属性 shift+del
+         if(e.keyCode == 46 && e.shiftKey == true) {
              tree.currentNode.property.splice(tree.currentPropertyIndex,1);
              tree.render(tree.baseData);
          }
@@ -132,9 +135,8 @@
              return false;
          }
          tree.currentKey = key;
-         $(".node").css("border",'solid 1px #bbbbbb');
-         $(this).css("border",'solid 2px #395060');
-         $(this).css("background",'#eef3f6');
+         $(".node").removeClass("current-node");
+         $(this).addClass("current-node");
          tree.currentNode = tree.findNodeByKey(key);
      });
     //显示属性列表
@@ -156,19 +158,15 @@
 
      //编辑节点
      $(".node").unbind('dblclick').dblclick(function(){
-         var text = $(this).text();
-         layer.open({
-             area: ['500px', '300px']
-             ,title: false
-			 ,btn:false
-             ,shade: 0.6 //遮罩透明度
-             ,content: '<div style="padding:50px;"><input id="text-val" value="'+ text +'"> <button id="edit-node">保存</button></div>'
+         var text = $(this).find('span').text().trim();
+         var width = $(this).width() - 10;
+         var input = $('<input value="'+text+'" style="width: '+ width +'px;" />');
+         input.blur(function(){
+             tree.currentNode.name = $(this).val();
+             $(this).parent().html($(this).val());
          });
-         $("#edit-node").click(function() {
-             tree.currentNode.name = $("#text-val").val();
-             tree.render(tree.baseData);
-             layer.closeAll();
-         });
+         $(this).find('span').html(input);
+         input.select();
      }).bind('selectstart', function(){ return false; });
 
 
@@ -305,9 +303,9 @@
      getNodePos(levelArr);
 
 
-     var nodes = document.getElementById('nodes');
+
      var lines = document.getElementById('lines');
-     nodes.innerHTML = '';
+     $("#nodes").html('');
      lines.innerHTML = '';
      $("#properties").html('');
      function makeTree (node) {
@@ -322,13 +320,14 @@
 
 
          //生成节点
-         var nodeDiv = document.createElement('div');
-         nodeDiv.setAttribute('key',node.key);
-         nodeDiv.setAttribute('class','node');
-         nodeDiv.style.left = (posX + tree.transformX - 10) + 'px';
-         nodeDiv.style.top = (posY + tree.transformY - 25) + 'px';
-         nodeDiv.innerHTML = node.name + ' <img src="asset/img/property.gif" />';
-         nodes.appendChild(nodeDiv);
+         var nodeDiv = $('<div key="'+node.key+'" class="node"><span>'+node.name+'</span> <img src="asset/img/property.gif" /></div>');
+         nodeDiv.css('left',(posX + tree.transformX - 10) + 'px');
+         nodeDiv.css('top',(posY + tree.transformY - 25)  + 'px');
+         if(node == tree.currentNode) {
+             $(".node").removeClass("current-node");
+             nodeDiv.addClass("current-node");
+         }
+         $("#nodes").append(nodeDiv);
 
          //生成连接线
          var parentY = 0;
